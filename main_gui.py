@@ -7,6 +7,27 @@ from PyQt5.QtWidgets import *
 # Subclass QMainWindow to customize your application's main window
 class MainWindow(QMainWindow):
     batteryCharge = 75
+    # ID, Name, Tags
+    items = [
+        [0, "Lamp", ["Kitchen", "Living Room"]],
+        [1, "Blender", ["Kitchen"]],
+        [2, "Blender", ["Kitchen"]],
+        [3, "Blender", ["Kitchen"]],
+        [4, "Blender", ["Kitchen"]],
+        [5, "Blender", ["Kitchen"]],
+        [6, "Blender", ["Kitchen"]],
+        [7, "Blender", ["Kitchen"]],
+        [8, "Blender", ["Kitchen"]],
+        [9, "Blender", ["Kitchen"]],
+        [10, "Blender", ["Kitchen"]],
+        [11, "Blender", ["Kitchen"]],
+        [12, "Blender", ["Kitchen"]],
+        [13, "Blender", ["Kitchen"]],
+        [14, "Blender", ["Kitchen"]],
+        [15, "Blender", ["Kitchen"]],
+        [16, "Blender", ["Kitchen"]],
+        [17, "Blender", ["Kitchen"]]
+    ]
 
     def onMyToolBarButtonClick(self, s):
         print("click", s)
@@ -18,6 +39,8 @@ class MainWindow(QMainWindow):
         self.setGeometry(0,0, 1024, 600)
 
         #TODO: Use a QStackedLayout to switch between pages
+
+        # Setup Main page
 
         toolbar = QToolBar("Page Selector")
         self.addToolBar(toolbar)
@@ -53,13 +76,41 @@ class MainWindow(QMainWindow):
         chargeBar.setGeometry(0,0, 600, 100)
 
         layout.addWidget(chargeLabel, 0, 0)
-        layout.addWidget(chargeBar, 0, 1)#, 10, 1)
+        layout.addWidget(chargeBar, 0, 1)
 
         tableWidget = QTableWidget(self)
-        tableWidget.setRowCount(10)
-        tableWidget.setColumnCount(5)
+        tableWidget.setRowCount(len(self.items)+1)
+        tableWidget.setColumnCount(6)
+        #add up to 1000
+        tableWidget.setColumnWidth(0, 50)
+        tableWidget.setColumnWidth(1, 150)
+        tableWidget.setColumnWidth(2, 261)
+        tableWidget.setColumnWidth(3, 300)
+        tableWidget.setColumnWidth(4, 100)
+        tableWidget.setColumnWidth(5, 100)
 
         layout.addWidget(tableWidget, 2, 0, 2, 0)
+
+        # Page Setup done
+
+        row = 0
+        for item in self.items:
+            name = QLabel(item[1])
+            time = QLabel("Time Of Use Remaining: 7H 23M")
+            details = QPushButton("Details")
+            delete = QPushButton("Delete")
+            #icon
+            tableWidget.setCellWidget(row, 1, name)
+            #tags
+            tableWidget.setCellWidget(row, 3, time)
+            tableWidget.setCellWidget(row, 4, details)
+            tableWidget.setCellWidget(row, 5, delete)
+            row+=1
+
+        plusButton = QPushButton("+")
+        tableWidget.setCellWidget(row, 0, plusButton)
+
+        tableWidget.setItem(row, 1, QTableWidgetItem("Add New Item"))
 
         widget = QWidget()
         widget.setLayout(layout)
