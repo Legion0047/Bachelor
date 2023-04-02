@@ -7,36 +7,31 @@ class persistence():
         self.exists()
         with open(FILEPATH, 'r') as openfile:
             json_object = json.load(openfile)
-            json_object.pop('-1')
-            json_object.update({0:{
-                    "name": "Lamp",
-                    "tags": ["Kitchen", "Living Room"],
-                    "voltage": 230,
-                    "current": 23,
-                    "power": 10.5
-                }})
-            json_object.update({1:{
-                    "name": "Blender",
-                    "tags": ["Kitchen"],
-                    "voltage": 220,
-                    "current": 2.2,
-                    "power": 600
-                }})
         array = []
         for key in list(json_object.keys()):
             values = (list(json_object[key].values()))
-            values.insert(0, key)
+            values.insert(0, int(key))
+            #TODO remove
             values.append(False)
             array.append(values)
         return array
 
-    def add(self, item):
+    #dictionary is used for create and edit, so this is used for add and edit
+    def addEdit(self, item):
         self.exists()
-        print("add: " + str(item[1]))
+        with open(FILEPATH, 'r') as openfile:
+            json_object = json.load(openfile)
+        json_object.update({item[0]:{
+                "name": item[1],
+                "tags": item[2],
+                "voltage": item[3],
+                "current": item[4],
+                "power": item[5]
+        }})
+        json_write_object = json.dumps(json_object, indent=4)
 
-    def edit(self, item):
-        self.exists()
-        print("edit: " + str(item[1]))
+        with open(FILEPATH, "w") as outfile:
+            outfile.write(json_write_object)
 
     def delete(self, item):
         self.exists()
@@ -45,15 +40,7 @@ class persistence():
     def exists(self):
         if os.path.exists(FILEPATH) == False:
             # Data to be written
-            dictionary = {
-                -1: {
-                    "name": "existence",
-                    "tags": "none",
-                    "voltage": 50,
-                    "current": 0.5,
-                    "power": 25
-                }
-            }
+            dictionary = {}
 
             # Serializing json
             json_object = json.dumps(dictionary, indent=4)

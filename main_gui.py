@@ -290,7 +290,7 @@ class MainWindow(QMainWindow):
         value, refuse = values[4].text().split(" ")
         item[5] = float(value)
         self.renderTable(0, tableWidget, nameSearch, tagSearch)
-        self.db.edit(item)
+        self.db.addEdit(item)
         dialogue.accept()
 
     def addItemToPlaner(self, tableWidget):
@@ -387,8 +387,8 @@ class MainWindow(QMainWindow):
         for item in self.items:
             if item[0] > itemId:
                 itemId = item[0]
-        itemId += 1
         newItem.append(itemId)
+        itemId += 1
         newItem.append(values[0].text())
         tags = values[1].text().split("|")
         for tag in tags:
@@ -400,7 +400,7 @@ class MainWindow(QMainWindow):
         newItem.append(False)
         # End of TODO
         self.items.append(newItem)
-        self.db.add(item)
+        self.db.addEdit(newItem)
         self.renderTable(0, tableWidget)
         dialogue.accept()
 
