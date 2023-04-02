@@ -35,7 +35,13 @@ class persistence():
 
     def delete(self, item):
         self.exists()
-        print("delete: " + str(item[1]))
+        with open(FILEPATH, 'r') as openfile:
+            json_object = json.load(openfile)
+        json_object.pop(str(item[0]))
+        json_write_object = json.dumps(json_object, indent=4)
+
+        with open(FILEPATH, "w") as outfile:
+            outfile.write(json_write_object)
 
     def exists(self):
         if os.path.exists(FILEPATH) == False:
