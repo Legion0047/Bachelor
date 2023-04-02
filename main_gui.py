@@ -15,12 +15,9 @@ class MainWindow(QMainWindow):
     batteryCharge = round((currentCapacity / maxCapacity) * 100)  # %
 
 
-    db.load()
+    items = db.load()
     # ID, Name, Tags, Voltage V, Current A, Power Wh, in planner
-    items = [
-        [0, "Lamp", ["Kitchen", "Living Room"], 230, 23, 10.5, False],
-        [1, "Blender", ["Kitchen"], 220, 2.2, 600, False]
-    ]
+
 
 
     def __init__(self):

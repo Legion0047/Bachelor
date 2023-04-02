@@ -7,6 +7,28 @@ class persistence():
         self.exists()
         with open(FILEPATH, 'r') as openfile:
             json_object = json.load(openfile)
+            json_object.pop('-1')
+            json_object.update({0:{
+                    "name": "Lamp",
+                    "tags": ["Kitchen", "Living Room"],
+                    "voltage": 230,
+                    "current": 23,
+                    "power": 10.5
+                }})
+            json_object.update({1:{
+                    "name": "Blender",
+                    "tags": ["Kitchen"],
+                    "voltage": 220,
+                    "current": 2.2,
+                    "power": 600
+                }})
+        array = []
+        for key in list(json_object.keys()):
+            values = (list(json_object[key].values()))
+            values.insert(0, key)
+            values.append(False)
+            array.append(values)
+        return array
 
     def add(self, item):
         self.exists()
@@ -24,8 +46,7 @@ class persistence():
         if os.path.exists(FILEPATH) == False:
             # Data to be written
             dictionary = {
-                "items": {
-                    "id": -1,
+                -1: {
                     "name": "existence",
                     "tags": "none",
                     "voltage": 50,
