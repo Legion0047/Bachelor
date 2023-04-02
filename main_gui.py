@@ -74,18 +74,22 @@ class MainWindow(QMainWindow):
         # to take up all the space in the window by default.
         self.setCentralWidget(widget)
 
-    def renderTable(self, page, tableWidget, nameSearch="", tagSearch=""):
+    def renderTable(self, page, tableWidget, nameSearch="name", tagSearch="tags"):
         # page = 0: Main
         # page = 1: PLanner
         tableWidget.clear()
         tableWidget.setRowCount(len(self.items) + 2)
         searchButton = QPushButton("Search")
-        nameSearchField = QLineEdit("name")
+        nameSearchField = QLineEdit(nameSearch)
         tableWidget.setCellWidget(0, 1, nameSearchField)
-        tagSearchField = QLineEdit("tags")
+        tagSearchField = QLineEdit(tagSearch)
         tableWidget.setCellWidget(0, 2, tagSearchField)
         searchButton.clicked.connect(partial(self.searchFilter, page, tableWidget, nameSearchField, tagSearchField))
         tableWidget.setCellWidget(0, 0, searchButton)
+
+
+        if nameSearch == "name": nameSearch = ""
+        if tagSearch == "tags": tagSearch = ""
 
         # initialized here to exist beyond the if blocks
         plannerItems = []
@@ -114,10 +118,10 @@ class MainWindow(QMainWindow):
                 continue
             tagFound = False
             for tag in item[2]:
-                if tagSearch in tag:
+                if tagSearch.upper() in tag.upper():
                     tagFound = True
                     break
-            if nameSearch in item[1] and tagFound:
+            if nameSearch.upper() in item[1].upper() and tagFound:
                 name = QLabel(item[1])
 
                 tags = item[2]
@@ -126,14 +130,17 @@ class MainWindow(QMainWindow):
                     text += tag + " | "
                 tag = QLabel(text[:len(text) - 3])
 
-                # icon
+                widgets = []
+                #TODO icon
                 tableWidget.setCellWidget(row, 1, name)
+                widgets.append(name)
                 tableWidget.setCellWidget(row, 2, tag)
+                widgets.append(tag)
                 if page == 0:
                     minutesDec, hours = math.modf(self.currentCapacity / item[5])
                     minutes = int(minutesDec * 60)
                     time = QLabel("Time Of Use Remaining: " + str(int(hours)) + "h " + str(minutes) + "m")
-
+                    widgets.append(time)
                     details = QPushButton("Details")
                     details.clicked.connect(partial(self.details, item[0]))
                     edit = QPushButton("Edit")
@@ -190,8 +197,6 @@ class MainWindow(QMainWindow):
     def searchFilter(self, page, tableWidget, nameSearchField, tagSearchField):
         nameSearch = nameSearchField.text()
         tagSearch = tagSearchField.text()
-        if nameSearch == "name": nameSearch = ""
-        if tagSearch == "tags": tagSearch = ""
         self.renderTable(page, tableWidget, nameSearch, tagSearch)
 
     def details(self, itemId):
@@ -281,7 +286,7 @@ class MainWindow(QMainWindow):
         values.append(power)
 
         save = QPushButton("Save Changes")
-        save.clicked.connect(partial(self.create, itemId, values, tableWidget, dlg))
+        save.clicked.connect(partial(self.changeItem, itemId, values, tableWidget, dlg))
         layout.addWidget(save, 5, 0, 1, 2)
         dlg.setLayout(layout)
 
