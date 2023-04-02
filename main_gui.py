@@ -1,17 +1,21 @@
 import sys
+import math
 
 from PyQt5.QtWidgets import *
-import math
 from functools import partial
 
+from persistence import persistence
 
 class MainWindow(QMainWindow):
+    db = persistence()
     realCapacity = 960  # WH
     reservedCapacity = 60  # WH
     maxCapacity = realCapacity - reservedCapacity  # WH
     currentCapacity = 512  # WH
     batteryCharge = round((currentCapacity / maxCapacity) * 100)  # %
 
+
+    db.load()
     # ID, Name, Tags, Voltage V, Current A, Power Wh, in planner
     items = [
         [0, "Lamp", ["Kitchen", "Living Room"], 230, 23, 10.5, False],
@@ -143,7 +147,7 @@ class MainWindow(QMainWindow):
                     edit = QPushButton("Edit")
                     edit.clicked.connect(partial(self.edit, item[0], tableWidget, nameSearch, tagSearch))
                     delete = QPushButton("Delete")
-                    delete.clicked.connect(partial(self.delete, 0, item[0], tableWidget))
+                    delete.clicked.connect(partial(self.delete, 0, item[0], tableWidget, nameSearch, tagSearch))
                     tableWidget.setCellWidget(row, 3, time)
                     tableWidget.setCellWidget(row, 4, details)
                     tableWidget.setCellWidget(row, 5, edit)
@@ -160,7 +164,7 @@ class MainWindow(QMainWindow):
                     details = QPushButton("Details")
                     details.clicked.connect(partial(self.details, item[0]))
                     remove = QPushButton("Delete")
-                    remove.clicked.connect(partial(self.delete, 1, item[0], tableWidget))
+                    remove.clicked.connect(partial(self.delete, 1, item[0], tableWidget, nameSearch, tagSearch))
                     tableWidget.setCellWidget(row, 3, hours)
                     tableWidget.setCellWidget(row, 4, minutes)
                     tableWidget.setCellWidget(row, 5, details)
@@ -181,20 +185,6 @@ class MainWindow(QMainWindow):
             capacityButton.clicked.connect(partial(self.calculateCapacity, plannerItems, capacityLabel))
             tableWidget.setCellWidget(row, 3, capacityLabel)
             tableWidget.setCellWidget(row, 4, capacityButton)
-
-    def calculateCapacity(self, items, label):
-        requiredCapacity = 0
-        for item in items:
-            hours = float(item[1].text())
-            minutes = float(item[2].text())
-            hours += float(minutes/60)
-            requiredCapacity += hours*item[0][5]
-        label.setText("Required Capacity: "+str(round((requiredCapacity / self.maxCapacity) * 100))+"%")
-
-    def searchFilter(self, page, tableWidget, nameSearchField, tagSearchField):
-        nameSearch = nameSearchField.text()
-        tagSearch = tagSearchField.text()
-        self.renderTable(page, tableWidget, nameSearch, tagSearch)
 
     def details(self, itemId):
         item = self.getById(itemId)
@@ -303,35 +293,9 @@ class MainWindow(QMainWindow):
         value, refuse = values[4].text().split(" ")
         item[5] = float(value)
         self.renderTable(0, tableWidget, nameSearch, tagSearch)
+        self.db.edit(item)
         dialogue.accept()
 
-    def addItem(self, values, tableWidget, dialogue):
-        newItem = []
-        # TODO Replace this in the future
-        itemId = 0
-        for item in self.items:
-            if item[0] > itemId:
-                itemId = item[0]
-        itemId += 1
-        newItem.append(itemId)
-        newItem.append(values[0].text())
-        tags = values[1].text().split("|")
-        for tag in tags:
-            tag = tag.strip()
-        newItem.append(tags)
-        newItem.append(float(values[2].text()))
-        newItem.append(float(values[3].text()))
-        newItem.append(float(values[4].text()))
-        newItem.append(False)
-        # End of TODO
-        self.items.append(newItem)
-        self.renderTable(0, tableWidget)
-        dialogue.accept()
-
-    def appendItem(self, item, tableWidget, dialogue):
-        item[6] = True
-        self.renderTable(1, tableWidget)
-        dialogue.accept()
     def addItemToPlaner(self, tableWidget):
         dlg = QDialog(self)
         dlg.setWindowTitle("Add Item")
@@ -368,6 +332,12 @@ class MainWindow(QMainWindow):
         dlg.setLayout(layout)
 
         dlg.exec()
+
+    def appendItem(self, item, tableWidget, dialogue):
+        item[6] = True
+        self.renderTable(1, tableWidget)
+        dialogue.accept()
+
     def createItem(self, tableWidget):
         values = []
         dlg = QDialog(self)
@@ -413,20 +383,59 @@ class MainWindow(QMainWindow):
 
         dlg.exec()
 
-    def delete(self, page, itemId, tableWidget):
+    def addItem(self, values, tableWidget, dialogue):
+        newItem = []
+        # TODO Replace this in the future
+        itemId = 0
+        for item in self.items:
+            if item[0] > itemId:
+                itemId = item[0]
+        itemId += 1
+        newItem.append(itemId)
+        newItem.append(values[0].text())
+        tags = values[1].text().split("|")
+        for tag in tags:
+            tag = tag.strip()
+        newItem.append(tags)
+        newItem.append(float(values[2].text()))
+        newItem.append(float(values[3].text()))
+        newItem.append(float(values[4].text()))
+        newItem.append(False)
+        # End of TODO
+        self.items.append(newItem)
+        self.db.add(item)
+        self.renderTable(0, tableWidget)
+        dialogue.accept()
+
+    def delete(self, page, itemId, tableWidget, nameSearch, tagSearch):
         item = self.getById(itemId)
         if page == 0:
             self.items.remove(item)
+            self.db.delete(item)
         else:
             item[6] = False
-        self.renderTable(page, tableWidget)
+        self.renderTable(page, tableWidget, nameSearch, tagSearch)
 
+    #Help Functions below here
     def getById(self, itemId):
         for item in self.items:
             if item[0] == itemId:
                 return item
         return []
 
+    def calculateCapacity(self, items, label):
+        requiredCapacity = 0
+        for item in items:
+            hours = float(item[1].text())
+            minutes = float(item[2].text())
+            hours += float(minutes/60)
+            requiredCapacity += hours*item[0][5]
+        label.setText("Required Capacity: "+str(round((requiredCapacity / self.maxCapacity) * 100))+"%")
+
+    def searchFilter(self, page, tableWidget, nameSearchField, tagSearchField):
+        nameSearch = nameSearchField.text()
+        tagSearch = tagSearchField.text()
+        self.renderTable(page, tableWidget, nameSearch, tagSearch)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
