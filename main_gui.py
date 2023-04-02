@@ -130,21 +130,18 @@ class MainWindow(QMainWindow):
                     text += tag + " | "
                 tag = QLabel(text[:len(text) - 3])
 
-                widgets = []
                 #TODO icon
                 tableWidget.setCellWidget(row, 1, name)
-                widgets.append(name)
                 tableWidget.setCellWidget(row, 2, tag)
-                widgets.append(tag)
                 if page == 0:
                     minutesDec, hours = math.modf(self.currentCapacity / item[5])
                     minutes = int(minutesDec * 60)
                     time = QLabel("Time Of Use Remaining: " + str(int(hours)) + "h " + str(minutes) + "m")
-                    widgets.append(time)
+
                     details = QPushButton("Details")
                     details.clicked.connect(partial(self.details, item[0]))
                     edit = QPushButton("Edit")
-                    edit.clicked.connect(partial(self.edit, item[0], tableWidget))
+                    edit.clicked.connect(partial(self.edit, item[0], tableWidget, nameSearch, tagSearch))
                     delete = QPushButton("Delete")
                     delete.clicked.connect(partial(self.delete, 0, item[0], tableWidget))
                     tableWidget.setCellWidget(row, 3, time)
@@ -241,7 +238,7 @@ class MainWindow(QMainWindow):
 
         dlg.exec()
 
-    def edit(self, itemId, tableWidget):
+    def edit(self, itemId, tableWidget, nameSearch, tagSearch):
         values = []
         item = self.getById(itemId)
 
@@ -286,13 +283,13 @@ class MainWindow(QMainWindow):
         values.append(power)
 
         save = QPushButton("Save Changes")
-        save.clicked.connect(partial(self.changeItem, itemId, values, tableWidget, dlg))
+        save.clicked.connect(partial(self.changeItem, itemId, values, tableWidget, dlg, nameSearch, tagSearch))
         layout.addWidget(save, 5, 0, 1, 2)
         dlg.setLayout(layout)
 
         dlg.exec()
 
-    def changeItem(self, itemId, values, tableWidget, dialogue):
+    def changeItem(self, itemId, values, tableWidget, dialogue, nameSearch, tagSearch):
         item = self.getById(itemId)
         item[1] = values[0].text()
         tags = values[1].text().split("|")
@@ -305,7 +302,7 @@ class MainWindow(QMainWindow):
         item[4] = float(value)
         value, refuse = values[4].text().split(" ")
         item[5] = float(value)
-        self.renderTable(0, tableWidget)
+        self.renderTable(0, tableWidget, nameSearch, tagSearch)
         dialogue.accept()
 
     def addItem(self, values, tableWidget, dialogue):
