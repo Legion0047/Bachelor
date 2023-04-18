@@ -32,6 +32,7 @@ for i in range(0, 960):
     current = dataDecoder.decode_16bit_int() / 100
     power = dataDecoder.decode_32bit_int() / 10
     saveData.append([i, voltage, current, power])
+    print("Step "+i+" out of 960 done.")
     now = datetime.today()
 
 json_object = {}
@@ -44,3 +45,5 @@ for entry in saveData:
 json_write_object = json.dumps(json_object, indent=4)
 with open("data.json", "w") as outfile:
     outfile.write(json_write_object)
+
+print("Programm finished, please shut me down.")
