@@ -115,13 +115,16 @@ class MainWindow(QMainWindow):
             tableWidget.setCellWidget(0, 4, minutesLabel)
         row = 1
         for item in items:
+            # Filter plan
             if page == 1 and not item[6]:
                 continue
+            # Filter tag
             tagFound = False
             for tag in item[2]:
                 if tagSearch.upper() in tag.upper():
                     tagFound = True
                     break
+            # Filter name
             if nameSearch.upper() in item[1].upper() and tagFound:
                 name = QLabel(item[1])
 
@@ -156,6 +159,7 @@ class MainWindow(QMainWindow):
                     minutes = QSpinBox()
                     minutes.setMinimum(0)
                     minutes.setMaximum(60)
+                    minutes.setSingleStep(5)
                     tempitem = [item,hours,minutes]
                     plannerItems.append(tempitem)
                     details = QPushButton("Details")
@@ -387,8 +391,8 @@ class MainWindow(QMainWindow):
         for item in self.items:
             if item[0] > itemId:
                 itemId = item[0]
-        newItem.append(itemId)
         itemId += 1
+        newItem.append(itemId)
         newItem.append(values[0].text())
         tags = values[1].text().split("|")
         for tag in tags:

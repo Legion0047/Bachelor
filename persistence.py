@@ -11,12 +11,11 @@ class persistence():
         for key in list(json_object.keys()):
             values = (list(json_object[key].values()))
             values.insert(0, int(key))
-            #TODO remove
             values.append(False)
             array.append(values)
         return array
 
-    #dictionary is used for create and edit, so this is used for add and edit
+    #dictionary.update is used for create and edit, so this is used for add and edit
     def addEdit(self, item):
         self.exists()
         with open(FILEPATH, 'r') as openfile:
