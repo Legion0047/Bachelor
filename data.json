@@ -1,2 +1,1916 @@
 {
+    "0": {
+        "voltage": 54.37,
+        "current": 2.9,
+        "power": 157.6,
+        "energy": 1099
+    },
+    "1": {
+        "voltage": 54.1,
+        "current": 2.63,
+        "power": 142.2,
+        "energy": 1102
+    },
+    "2": {
+        "voltage": 54.07,
+        "current": 2.68,
+        "power": 144.9,
+        "energy": 1103
+    },
+    "3": {
+        "voltage": 53.89,
+        "current": 2.81,
+        "power": 151.4,
+        "energy": 1104
+    },
+    "4": {
+        "voltage": 54.2,
+        "current": 2.8,
+        "power": 151.7,
+        "energy": 1105
+    },
+    "5": {
+        "voltage": 57.02,
+        "current": 2.62,
+        "power": 149.3,
+        "energy": 1107
+    },
+    "6": {
+        "voltage": 54.78,
+        "current": 2.72,
+        "power": 149.0,
+        "energy": 1108
+    },
+    "7": {
+        "voltage": 55.7,
+        "current": 2.76,
+        "power": 153.7,
+        "energy": 1109
+    },
+    "8": {
+        "voltage": 54.58,
+        "current": 2.68,
+        "power": 146.2,
+        "energy": 1110
+    },
+    "9": {
+        "voltage": 53.71,
+        "current": 2.76,
+        "power": 148.2,
+        "energy": 1112
+    },
+    "10": {
+        "voltage": 53.82,
+        "current": 2.71,
+        "power": 145.8,
+        "energy": 1113
+    },
+    "11": {
+        "voltage": 54.8,
+        "current": 2.76,
+        "power": 151.2,
+        "energy": 1114
+    },
+    "12": {
+        "voltage": 53.63,
+        "current": 2.76,
+        "power": 148.0,
+        "energy": 1115
+    },
+    "13": {
+        "voltage": 55.09,
+        "current": 2.66,
+        "power": 146.5,
+        "energy": 1117
+    },
+    "14": {
+        "voltage": 54.77,
+        "current": 2.76,
+        "power": 151.1,
+        "energy": 1118
+    },
+    "15": {
+        "voltage": 53.56,
+        "current": 2.76,
+        "power": 147.8,
+        "energy": 1119
+    },
+    "16": {
+        "voltage": 53.58,
+        "current": 2.8,
+        "power": 150.0,
+        "energy": 1120
+    },
+    "17": {
+        "voltage": 53.74,
+        "current": 2.77,
+        "power": 148.8,
+        "energy": 1121
+    },
+    "18": {
+        "voltage": 56.03,
+        "current": 2.58,
+        "power": 144.5,
+        "energy": 1123
+    },
+    "19": {
+        "voltage": 54.56,
+        "current": 2.78,
+        "power": 151.6,
+        "energy": 1124
+    },
+    "20": {
+        "voltage": 53.89,
+        "current": 2.3,
+        "power": 123.9,
+        "energy": 1125
+    },
+    "21": {
+        "voltage": 55.2,
+        "current": 2.75,
+        "power": 151.8,
+        "energy": 1126
+    },
+    "22": {
+        "voltage": 56.42,
+        "current": 2.7,
+        "power": 152.3,
+        "energy": 1127
+    },
+    "23": {
+        "voltage": 55.82,
+        "current": 2.67,
+        "power": 149.0,
+        "energy": 1129
+    },
+    "24": {
+        "voltage": 53.83,
+        "current": 2.23,
+        "power": 120.0,
+        "energy": 1130
+    },
+    "25": {
+        "voltage": 54.95,
+        "current": 2.73,
+        "power": 150.0,
+        "energy": 1131
+    },
+    "26": {
+        "voltage": 55.63,
+        "current": 2.49,
+        "power": 138.5,
+        "energy": 1132
+    },
+    "27": {
+        "voltage": 53.28,
+        "current": 2.71,
+        "power": 144.3,
+        "energy": 1133
+    },
+    "28": {
+        "voltage": 53.42,
+        "current": 2.55,
+        "power": 136.2,
+        "energy": 1135
+    },
+    "29": {
+        "voltage": 53.45,
+        "current": 2.61,
+        "power": 139.5,
+        "energy": 1136
+    },
+    "30": {
+        "voltage": 53.6,
+        "current": 2.33,
+        "power": 124.8,
+        "energy": 1137
+    },
+    "31": {
+        "voltage": 54.27,
+        "current": 2.73,
+        "power": 148.1,
+        "energy": 1138
+    },
+    "32": {
+        "voltage": 55.45,
+        "current": 2.66,
+        "power": 147.4,
+        "energy": 1139
+    },
+    "33": {
+        "voltage": 53.16,
+        "current": 2.63,
+        "power": 139.8,
+        "energy": 1140
+    },
+    "34": {
+        "voltage": 54.33,
+        "current": 2.77,
+        "power": 150.4,
+        "energy": 1142
+    },
+    "35": {
+        "voltage": 55.7,
+        "current": 2.57,
+        "power": 143.1,
+        "energy": 1143
+    },
+    "36": {
+        "voltage": 55.8,
+        "current": 2.78,
+        "power": 155.1,
+        "energy": 1144
+    },
+    "37": {
+        "voltage": 53.31,
+        "current": 2.44,
+        "power": 130.0,
+        "energy": 1145
+    },
+    "38": {
+        "voltage": 55.26,
+        "current": 2.82,
+        "power": 155.8,
+        "energy": 1146
+    },
+    "39": {
+        "voltage": 54.93,
+        "current": 2.71,
+        "power": 148.8,
+        "energy": 1148
+    },
+    "40": {
+        "voltage": 54.04,
+        "current": 2.89,
+        "power": 156.1,
+        "energy": 1149
+    },
+    "41": {
+        "voltage": 55.48,
+        "current": 2.34,
+        "power": 129.8,
+        "energy": 1150
+    },
+    "42": {
+        "voltage": 53.49,
+        "current": 2.68,
+        "power": 143.3,
+        "energy": 1151
+    },
+    "43": {
+        "voltage": 55.49,
+        "current": 2.74,
+        "power": 152.0,
+        "energy": 1152
+    },
+    "44": {
+        "voltage": 53.07,
+        "current": 2.43,
+        "power": 128.9,
+        "energy": 1153
+    },
+    "45": {
+        "voltage": 53.48,
+        "current": 2.83,
+        "power": 151.3,
+        "energy": 1155
+    },
+    "46": {
+        "voltage": 54.85,
+        "current": 2.5,
+        "power": 137.1,
+        "energy": 1156
+    },
+    "47": {
+        "voltage": 53.08,
+        "current": 2.3,
+        "power": 122.0,
+        "energy": 1157
+    },
+    "48": {
+        "voltage": 55.65,
+        "current": 2.76,
+        "power": 153.5,
+        "energy": 1158
+    },
+    "49": {
+        "voltage": 53.23,
+        "current": 2.63,
+        "power": 139.9,
+        "energy": 1159
+    },
+    "50": {
+        "voltage": 54.58,
+        "current": 2.78,
+        "power": 151.7,
+        "energy": 1161
+    },
+    "51": {
+        "voltage": 53.38,
+        "current": 2.68,
+        "power": 143.0,
+        "energy": 1162
+    },
+    "52": {
+        "voltage": 54.83,
+        "current": 2.77,
+        "power": 151.8,
+        "energy": 1163
+    },
+    "53": {
+        "voltage": 52.77,
+        "current": 2.77,
+        "power": 146.1,
+        "energy": 1164
+    },
+    "54": {
+        "voltage": 52.76,
+        "current": 2.79,
+        "power": 147.2,
+        "energy": 1165
+    },
+    "55": {
+        "voltage": 53.01,
+        "current": 2.78,
+        "power": 147.3,
+        "energy": 1167
+    },
+    "56": {
+        "voltage": 54.9,
+        "current": 2.78,
+        "power": 152.6,
+        "energy": 1168
+    },
+    "57": {
+        "voltage": 54.05,
+        "current": 2.64,
+        "power": 142.6,
+        "energy": 1169
+    },
+    "58": {
+        "voltage": 54.6,
+        "current": 2.77,
+        "power": 151.2,
+        "energy": 1170
+    },
+    "59": {
+        "voltage": 55.37,
+        "current": 2.76,
+        "power": 152.8,
+        "energy": 1172
+    },
+    "60": {
+        "voltage": 52.65,
+        "current": 2.78,
+        "power": 146.3,
+        "energy": 1173
+    },
+    "61": {
+        "voltage": 53.27,
+        "current": 2.48,
+        "power": 132.1,
+        "energy": 1174
+    },
+    "62": {
+        "voltage": 52.83,
+        "current": 2.54,
+        "power": 134.1,
+        "energy": 1175
+    },
+    "63": {
+        "voltage": 52.61,
+        "current": 2.48,
+        "power": 130.4,
+        "energy": 1176
+    },
+    "64": {
+        "voltage": 55.22,
+        "current": 2.34,
+        "power": 129.2,
+        "energy": 1177
+    },
+    "65": {
+        "voltage": 53.79,
+        "current": 2.67,
+        "power": 143.6,
+        "energy": 1179
+    },
+    "66": {
+        "voltage": 54.37,
+        "current": 3.36,
+        "power": 182.6,
+        "energy": 1180
+    },
+    "67": {
+        "voltage": 54.04,
+        "current": 2.67,
+        "power": 144.2,
+        "energy": 1181
+    },
+    "68": {
+        "voltage": 53.53,
+        "current": 3.03,
+        "power": 162.1,
+        "energy": 1182
+    },
+    "69": {
+        "voltage": 55.13,
+        "current": 2.71,
+        "power": 149.4,
+        "energy": 1183
+    },
+    "70": {
+        "voltage": 54.6,
+        "current": 2.94,
+        "power": 160.5,
+        "energy": 1184
+    },
+    "71": {
+        "voltage": 55.24,
+        "current": 2.86,
+        "power": 157.9,
+        "energy": 1186
+    },
+    "72": {
+        "voltage": 52.97,
+        "current": 2.35,
+        "power": 124.4,
+        "energy": 1187
+    },
+    "73": {
+        "voltage": 52.46,
+        "current": 3.25,
+        "power": 170.4,
+        "energy": 1188
+    },
+    "74": {
+        "voltage": 53.06,
+        "current": 2.79,
+        "power": 148.0,
+        "energy": 1189
+    },
+    "75": {
+        "voltage": 54.64,
+        "current": 2.6,
+        "power": 142.0,
+        "energy": 1190
+    },
+    "76": {
+        "voltage": 55.32,
+        "current": 2.59,
+        "power": 143.2,
+        "energy": 1192
+    },
+    "77": {
+        "voltage": 53.46,
+        "current": 2.81,
+        "power": 150.2,
+        "energy": 1193
+    },
+    "78": {
+        "voltage": 52.27,
+        "current": 2.64,
+        "power": 137.9,
+        "energy": 1194
+    },
+    "79": {
+        "voltage": 52.84,
+        "current": 2.76,
+        "power": 145.8,
+        "energy": 1195
+    },
+    "80": {
+        "voltage": 52.44,
+        "current": 2.65,
+        "power": 138.9,
+        "energy": 1196
+    },
+    "81": {
+        "voltage": 54.41,
+        "current": 2.69,
+        "power": 146.3,
+        "energy": 1198
+    },
+    "82": {
+        "voltage": 54.28,
+        "current": 2.66,
+        "power": 144.3,
+        "energy": 1199
+    },
+    "83": {
+        "voltage": 53.49,
+        "current": 2.62,
+        "power": 140.1,
+        "energy": 1200
+    },
+    "84": {
+        "voltage": 54.76,
+        "current": 2.75,
+        "power": 150.5,
+        "energy": 1201
+    },
+    "85": {
+        "voltage": 52.54,
+        "current": 2.86,
+        "power": 150.2,
+        "energy": 1202
+    },
+    "86": {
+        "voltage": 52.13,
+        "current": 2.81,
+        "power": 146.4,
+        "energy": 1204
+    },
+    "87": {
+        "voltage": 52.18,
+        "current": 2.8,
+        "power": 146.1,
+        "energy": 1205
+    },
+    "88": {
+        "voltage": 53.13,
+        "current": 2.79,
+        "power": 148.2,
+        "energy": 1206
+    },
+    "89": {
+        "voltage": 52.13,
+        "current": 2.68,
+        "power": 139.7,
+        "energy": 1207
+    },
+    "90": {
+        "voltage": 52.98,
+        "current": 2.64,
+        "power": 139.8,
+        "energy": 1208
+    },
+    "91": {
+        "voltage": 52.23,
+        "current": 2.81,
+        "power": 146.7,
+        "energy": 1210
+    },
+    "92": {
+        "voltage": 53.41,
+        "current": 2.62,
+        "power": 139.9,
+        "energy": 1211
+    },
+    "93": {
+        "voltage": 54.91,
+        "current": 2.78,
+        "power": 152.6,
+        "energy": 1212
+    },
+    "94": {
+        "voltage": 54.56,
+        "current": 2.56,
+        "power": 139.6,
+        "energy": 1213
+    },
+    "95": {
+        "voltage": 53.78,
+        "current": 2.82,
+        "power": 151.6,
+        "energy": 1214
+    },
+    "96": {
+        "voltage": 54.43,
+        "current": 2.75,
+        "power": 149.6,
+        "energy": 1216
+    },
+    "97": {
+        "voltage": 52.07,
+        "current": 2.81,
+        "power": 146.3,
+        "energy": 1217
+    },
+    "98": {
+        "voltage": 52.69,
+        "current": 2.75,
+        "power": 144.8,
+        "energy": 1218
+    },
+    "99": {
+        "voltage": 52.12,
+        "current": 2.88,
+        "power": 150.1,
+        "energy": 1219
+    },
+    "100": {
+        "voltage": 53.0,
+        "current": 2.84,
+        "power": 150.5,
+        "energy": 1220
+    },
+    "101": {
+        "voltage": 53.89,
+        "current": 2.74,
+        "power": 147.6,
+        "energy": 1222
+    },
+    "102": {
+        "voltage": 52.85,
+        "current": 2.93,
+        "power": 154.8,
+        "energy": 1223
+    },
+    "103": {
+        "voltage": 51.82,
+        "current": 2.74,
+        "power": 141.9,
+        "energy": 1224
+    },
+    "104": {
+        "voltage": 53.71,
+        "current": 2.8,
+        "power": 150.3,
+        "energy": 1225
+    },
+    "105": {
+        "voltage": 54.04,
+        "current": 2.5,
+        "power": 135.1,
+        "energy": 1226
+    },
+    "106": {
+        "voltage": 54.07,
+        "current": 2.69,
+        "power": 145.4,
+        "energy": 1228
+    },
+    "107": {
+        "voltage": 52.04,
+        "current": 2.41,
+        "power": 125.4,
+        "energy": 1229
+    },
+    "108": {
+        "voltage": 52.37,
+        "current": 2.75,
+        "power": 144.0,
+        "energy": 1230
+    },
+    "109": {
+        "voltage": 51.91,
+        "current": 2.82,
+        "power": 146.3,
+        "energy": 1231
+    },
+    "110": {
+        "voltage": 54.07,
+        "current": 2.61,
+        "power": 141.1,
+        "energy": 1232
+    },
+    "111": {
+        "voltage": 51.76,
+        "current": 2.94,
+        "power": 152.1,
+        "energy": 1234
+    },
+    "112": {
+        "voltage": 51.67,
+        "current": 2.81,
+        "power": 145.1,
+        "energy": 1235
+    },
+    "113": {
+        "voltage": 54.33,
+        "current": 2.75,
+        "power": 149.4,
+        "energy": 1236
+    },
+    "114": {
+        "voltage": 52.53,
+        "current": 2.78,
+        "power": 146.0,
+        "energy": 1237
+    },
+    "115": {
+        "voltage": 52.16,
+        "current": 2.69,
+        "power": 140.3,
+        "energy": 1238
+    },
+    "116": {
+        "voltage": 51.76,
+        "current": 2.78,
+        "power": 143.8,
+        "energy": 1240
+    },
+    "117": {
+        "voltage": 51.6,
+        "current": 2.8,
+        "power": 144.4,
+        "energy": 1241
+    },
+    "118": {
+        "voltage": 53.75,
+        "current": 2.72,
+        "power": 146.2,
+        "energy": 1242
+    },
+    "119": {
+        "voltage": 51.54,
+        "current": 2.72,
+        "power": 140.1,
+        "energy": 1243
+    },
+    "120": {
+        "voltage": 52.02,
+        "current": 2.59,
+        "power": 134.7,
+        "energy": 1244
+    },
+    "121": {
+        "voltage": 51.83,
+        "current": 2.84,
+        "power": 147.1,
+        "energy": 1245
+    },
+    "122": {
+        "voltage": 52.4,
+        "current": 2.8,
+        "power": 146.7,
+        "energy": 1247
+    },
+    "123": {
+        "voltage": 53.79,
+        "current": 2.81,
+        "power": 151.1,
+        "energy": 1248
+    },
+    "124": {
+        "voltage": 53.94,
+        "current": 2.84,
+        "power": 153.1,
+        "energy": 1249
+    },
+    "125": {
+        "voltage": 51.49,
+        "current": 2.5,
+        "power": 128.7,
+        "energy": 1250
+    },
+    "126": {
+        "voltage": 51.47,
+        "current": 2.57,
+        "power": 132.2,
+        "energy": 1251
+    },
+    "127": {
+        "voltage": 51.5,
+        "current": 2.5,
+        "power": 128.7,
+        "energy": 1253
+    },
+    "128": {
+        "voltage": 51.74,
+        "current": 2.72,
+        "power": 140.7,
+        "energy": 1254
+    },
+    "129": {
+        "voltage": 51.37,
+        "current": 2.57,
+        "power": 132.0,
+        "energy": 1255
+    },
+    "130": {
+        "voltage": 52.32,
+        "current": 2.86,
+        "power": 149.6,
+        "energy": 1256
+    },
+    "131": {
+        "voltage": 52.94,
+        "current": 2.51,
+        "power": 132.8,
+        "energy": 1257
+    },
+    "132": {
+        "voltage": 53.63,
+        "current": 2.84,
+        "power": 152.3,
+        "energy": 1258
+    },
+    "133": {
+        "voltage": 53.11,
+        "current": 2.69,
+        "power": 142.8,
+        "energy": 1261
+    },
+    "134": {
+        "voltage": 53.24,
+        "current": 2.73,
+        "power": 145.3,
+        "energy": 1262
+    },
+    "135": {
+        "voltage": 53.31,
+        "current": 2.81,
+        "power": 149.8,
+        "energy": 1263
+    },
+    "136": {
+        "voltage": 52.31,
+        "current": 2.63,
+        "power": 137.5,
+        "energy": 1264
+    },
+    "137": {
+        "voltage": 51.63,
+        "current": 2.82,
+        "power": 145.5,
+        "energy": 1265
+    },
+    "138": {
+        "voltage": 51.4,
+        "current": 2.78,
+        "power": 142.8,
+        "energy": 1266
+    },
+    "139": {
+        "voltage": 51.7,
+        "current": 2.6,
+        "power": 134.4,
+        "energy": 1268
+    },
+    "140": {
+        "voltage": 52.21,
+        "current": 2.48,
+        "power": 129.4,
+        "energy": 1269
+    },
+    "141": {
+        "voltage": 51.36,
+        "current": 2.53,
+        "power": 129.9,
+        "energy": 1270
+    },
+    "142": {
+        "voltage": 51.15,
+        "current": 2.61,
+        "power": 133.5,
+        "energy": 1271
+    },
+    "143": {
+        "voltage": 53.39,
+        "current": 2.81,
+        "power": 150.0,
+        "energy": 1272
+    },
+    "144": {
+        "voltage": 53.3,
+        "current": 2.87,
+        "power": 152.9,
+        "energy": 1273
+    },
+    "145": {
+        "voltage": 52.98,
+        "current": 2.84,
+        "power": 150.4,
+        "energy": 1275
+    },
+    "146": {
+        "voltage": 51.08,
+        "current": 2.64,
+        "power": 134.8,
+        "energy": 1276
+    },
+    "147": {
+        "voltage": 51.4,
+        "current": 2.83,
+        "power": 145.4,
+        "energy": 1277
+    },
+    "148": {
+        "voltage": 52.39,
+        "current": 2.71,
+        "power": 141.9,
+        "energy": 1278
+    },
+    "149": {
+        "voltage": 52.17,
+        "current": 2.82,
+        "power": 147.1,
+        "energy": 1279
+    },
+    "150": {
+        "voltage": 51.27,
+        "current": 2.77,
+        "power": 142.0,
+        "energy": 1280
+    },
+    "151": {
+        "voltage": 51.82,
+        "current": 2.8,
+        "power": 145.0,
+        "energy": 1282
+    },
+    "152": {
+        "voltage": 51.14,
+        "current": 2.54,
+        "power": 129.8,
+        "energy": 1283
+    },
+    "153": {
+        "voltage": 53.23,
+        "current": 2.76,
+        "power": 146.9,
+        "energy": 1284
+    },
+    "154": {
+        "voltage": 52.52,
+        "current": 2.52,
+        "power": 132.3,
+        "energy": 1285
+    },
+    "155": {
+        "voltage": 51.65,
+        "current": 2.83,
+        "power": 146.1,
+        "energy": 1286
+    },
+    "156": {
+        "voltage": 50.91,
+        "current": 2.54,
+        "power": 129.3,
+        "energy": 1287
+    },
+    "157": {
+        "voltage": 51.01,
+        "current": 2.53,
+        "power": 129.0,
+        "energy": 1289
+    },
+    "158": {
+        "voltage": 50.87,
+        "current": 2.67,
+        "power": 135.8,
+        "energy": 1290
+    },
+    "159": {
+        "voltage": 51.0,
+        "current": 2.49,
+        "power": 126.9,
+        "energy": 1291
+    },
+    "160": {
+        "voltage": 51.06,
+        "current": 2.73,
+        "power": 139.3,
+        "energy": 1292
+    },
+    "161": {
+        "voltage": 52.73,
+        "current": 2.84,
+        "power": 149.7,
+        "energy": 1293
+    },
+    "162": {
+        "voltage": 51.46,
+        "current": 2.49,
+        "power": 128.1,
+        "energy": 1294
+    },
+    "163": {
+        "voltage": 53.07,
+        "current": 2.86,
+        "power": 151.7,
+        "energy": 1296
+    },
+    "164": {
+        "voltage": 52.98,
+        "current": 2.61,
+        "power": 138.2,
+        "energy": 1297
+    },
+    "165": {
+        "voltage": 50.75,
+        "current": 2.6,
+        "power": 131.9,
+        "energy": 1298
+    },
+    "166": {
+        "voltage": 53.0,
+        "current": 2.83,
+        "power": 149.9,
+        "energy": 1299
+    },
+    "167": {
+        "voltage": 52.02,
+        "current": 2.83,
+        "power": 147.2,
+        "energy": 1300
+    },
+    "168": {
+        "voltage": 51.23,
+        "current": 2.71,
+        "power": 138.8,
+        "energy": 1302
+    },
+    "169": {
+        "voltage": 53.26,
+        "current": 2.74,
+        "power": 145.9,
+        "energy": 1303
+    },
+    "170": {
+        "voltage": 52.1,
+        "current": 2.85,
+        "power": 148.4,
+        "energy": 1304
+    },
+    "171": {
+        "voltage": 50.66,
+        "current": 2.53,
+        "power": 128.1,
+        "energy": 1305
+    },
+    "172": {
+        "voltage": 50.63,
+        "current": 2.68,
+        "power": 135.6,
+        "energy": 1306
+    },
+    "173": {
+        "voltage": 52.22,
+        "current": 2.53,
+        "power": 132.1,
+        "energy": 1307
+    },
+    "174": {
+        "voltage": 52.58,
+        "current": 2.84,
+        "power": 149.3,
+        "energy": 1309
+    },
+    "175": {
+        "voltage": 50.65,
+        "current": 2.58,
+        "power": 130.6,
+        "energy": 1310
+    },
+    "176": {
+        "voltage": 51.45,
+        "current": 2.65,
+        "power": 136.3,
+        "energy": 1311
+    },
+    "177": {
+        "voltage": 51.26,
+        "current": 2.76,
+        "power": 141.4,
+        "energy": 1312
+    },
+    "178": {
+        "voltage": 50.72,
+        "current": 2.82,
+        "power": 143.0,
+        "energy": 1313
+    },
+    "179": {
+        "voltage": 51.12,
+        "current": 2.76,
+        "power": 141.0,
+        "energy": 1314
+    },
+    "180": {
+        "voltage": 52.54,
+        "current": 2.83,
+        "power": 148.6,
+        "energy": 1316
+    },
+    "181": {
+        "voltage": 50.57,
+        "current": 2.55,
+        "power": 128.9,
+        "energy": 1317
+    },
+    "182": {
+        "voltage": 50.89,
+        "current": 2.53,
+        "power": 128.7,
+        "energy": 1318
+    },
+    "183": {
+        "voltage": 51.93,
+        "current": 2.85,
+        "power": 148.0,
+        "energy": 1319
+    },
+    "184": {
+        "voltage": 52.83,
+        "current": 2.71,
+        "power": 143.1,
+        "energy": 1320
+    },
+    "185": {
+        "voltage": 50.42,
+        "current": 2.67,
+        "power": 134.6,
+        "energy": 1321
+    },
+    "186": {
+        "voltage": 50.63,
+        "current": 2.53,
+        "power": 128.0,
+        "energy": 1323
+    },
+    "187": {
+        "voltage": 51.27,
+        "current": 2.69,
+        "power": 137.9,
+        "energy": 1324
+    },
+    "188": {
+        "voltage": 52.65,
+        "current": 2.8,
+        "power": 147.4,
+        "energy": 1325
+    },
+    "189": {
+        "voltage": 50.42,
+        "current": 2.58,
+        "power": 130.0,
+        "energy": 1326
+    },
+    "190": {
+        "voltage": 53.05,
+        "current": 2.81,
+        "power": 149.0,
+        "energy": 1327
+    },
+    "191": {
+        "voltage": 50.98,
+        "current": 2.83,
+        "power": 144.2,
+        "energy": 1328
+    },
+    "192": {
+        "voltage": 51.72,
+        "current": 2.76,
+        "power": 142.7,
+        "energy": 1330
+    },
+    "193": {
+        "voltage": 52.69,
+        "current": 2.83,
+        "power": 149.1,
+        "energy": 1331
+    },
+    "194": {
+        "voltage": 52.36,
+        "current": 2.87,
+        "power": 150.2,
+        "energy": 1332
+    },
+    "195": {
+        "voltage": 50.33,
+        "current": 2.72,
+        "power": 136.8,
+        "energy": 1333
+    },
+    "196": {
+        "voltage": 51.61,
+        "current": 2.62,
+        "power": 135.2,
+        "energy": 1334
+    },
+    "197": {
+        "voltage": 50.25,
+        "current": 2.61,
+        "power": 131.1,
+        "energy": 1335
+    },
+    "198": {
+        "voltage": 50.85,
+        "current": 2.67,
+        "power": 135.7,
+        "energy": 1337
+    },
+    "199": {
+        "voltage": 50.65,
+        "current": 2.77,
+        "power": 140.3,
+        "energy": 1338
+    },
+    "200": {
+        "voltage": 51.94,
+        "current": 2.83,
+        "power": 146.9,
+        "energy": 1339
+    },
+    "201": {
+        "voltage": 50.78,
+        "current": 2.86,
+        "power": 145.2,
+        "energy": 1340
+    },
+    "202": {
+        "voltage": 50.33,
+        "current": 2.76,
+        "power": 138.9,
+        "energy": 1341
+    },
+    "203": {
+        "voltage": 52.23,
+        "current": 2.77,
+        "power": 144.6,
+        "energy": 1342
+    },
+    "204": {
+        "voltage": 51.11,
+        "current": 2.9,
+        "power": 148.2,
+        "energy": 1344
+    },
+    "205": {
+        "voltage": 50.09,
+        "current": 2.79,
+        "power": 139.7,
+        "energy": 1345
+    },
+    "206": {
+        "voltage": 50.64,
+        "current": 3.08,
+        "power": 155.9,
+        "energy": 1346
+    },
+    "207": {
+        "voltage": 50.53,
+        "current": 2.91,
+        "power": 147.0,
+        "energy": 1347
+    },
+    "208": {
+        "voltage": 50.38,
+        "current": 2.57,
+        "power": 129.4,
+        "energy": 1348
+    },
+    "209": {
+        "voltage": 52.54,
+        "current": 2.72,
+        "power": 142.9,
+        "energy": 1350
+    },
+    "210": {
+        "voltage": 50.29,
+        "current": 2.75,
+        "power": 138.2,
+        "energy": 1351
+    },
+    "211": {
+        "voltage": 50.5,
+        "current": 2.97,
+        "power": 149.9,
+        "energy": 1352
+    },
+    "212": {
+        "voltage": 51.67,
+        "current": 2.89,
+        "power": 149.3,
+        "energy": 1353
+    },
+    "213": {
+        "voltage": 50.06,
+        "current": 2.97,
+        "power": 148.6,
+        "energy": 1354
+    },
+    "214": {
+        "voltage": 52.13,
+        "current": 3.11,
+        "power": 162.1,
+        "energy": 1356
+    },
+    "215": {
+        "voltage": 49.89,
+        "current": 2.36,
+        "power": 117.7,
+        "energy": 1357
+    },
+    "216": {
+        "voltage": 50.97,
+        "current": 2.77,
+        "power": 141.1,
+        "energy": 1358
+    },
+    "217": {
+        "voltage": 51.05,
+        "current": 2.5,
+        "power": 127.6,
+        "energy": 1359
+    },
+    "218": {
+        "voltage": 50.22,
+        "current": 2.61,
+        "power": 131.0,
+        "energy": 1360
+    },
+    "219": {
+        "voltage": 49.94,
+        "current": 2.66,
+        "power": 132.8,
+        "energy": 1361
+    },
+    "220": {
+        "voltage": 52.01,
+        "current": 2.78,
+        "power": 144.5,
+        "energy": 1362
+    },
+    "221": {
+        "voltage": 51.69,
+        "current": 2.78,
+        "power": 143.6,
+        "energy": 1363
+    },
+    "222": {
+        "voltage": 52.41,
+        "current": 2.77,
+        "power": 145.1,
+        "energy": 1365
+    },
+    "223": {
+        "voltage": 50.09,
+        "current": 2.7,
+        "power": 135.2,
+        "energy": 1366
+    },
+    "224": {
+        "voltage": 51.88,
+        "current": 2.79,
+        "power": 144.7,
+        "energy": 1367
+    },
+    "225": {
+        "voltage": 50.5,
+        "current": 2.83,
+        "power": 142.9,
+        "energy": 1368
+    },
+    "226": {
+        "voltage": 52.31,
+        "current": 2.79,
+        "power": 145.9,
+        "energy": 1369
+    },
+    "227": {
+        "voltage": 50.17,
+        "current": 2.83,
+        "power": 141.9,
+        "energy": 1370
+    },
+    "228": {
+        "voltage": 50.65,
+        "current": 2.78,
+        "power": 140.8,
+        "energy": 1372
+    },
+    "229": {
+        "voltage": 51.72,
+        "current": 2.83,
+        "power": 146.3,
+        "energy": 1373
+    },
+    "230": {
+        "voltage": 49.69,
+        "current": 2.75,
+        "power": 136.6,
+        "energy": 1374
+    },
+    "231": {
+        "voltage": 49.82,
+        "current": 2.66,
+        "power": 132.5,
+        "energy": 1375
+    },
+    "232": {
+        "voltage": 50.91,
+        "current": 2.78,
+        "power": 141.5,
+        "energy": 1376
+    },
+    "233": {
+        "voltage": 49.75,
+        "current": 2.69,
+        "power": 133.8,
+        "energy": 1377
+    },
+    "234": {
+        "voltage": 49.64,
+        "current": 2.77,
+        "power": 137.5,
+        "energy": 1378
+    },
+    "235": {
+        "voltage": 51.67,
+        "current": 2.74,
+        "power": 141.5,
+        "energy": 1380
+    },
+    "236": {
+        "voltage": 51.69,
+        "current": 2.78,
+        "power": 143.6,
+        "energy": 1381
+    },
+    "237": {
+        "voltage": 51.75,
+        "current": 2.78,
+        "power": 143.8,
+        "energy": 1382
+    },
+    "238": {
+        "voltage": 51.52,
+        "current": 2.7,
+        "power": 139.1,
+        "energy": 1383
+    },
+    "239": {
+        "voltage": 50.28,
+        "current": 2.71,
+        "power": 136.2,
+        "energy": 1384
+    },
+    "240": {
+        "voltage": 49.66,
+        "current": 2.69,
+        "power": 133.5,
+        "energy": 1385
+    },
+    "241": {
+        "voltage": 51.81,
+        "current": 2.75,
+        "power": 142.4,
+        "energy": 1387
+    },
+    "242": {
+        "voltage": 50.88,
+        "current": 2.74,
+        "power": 139.4,
+        "energy": 1388
+    },
+    "243": {
+        "voltage": 50.31,
+        "current": 2.64,
+        "power": 132.8,
+        "energy": 1389
+    },
+    "244": {
+        "voltage": 51.47,
+        "current": 2.78,
+        "power": 143.0,
+        "energy": 1390
+    },
+    "245": {
+        "voltage": 51.14,
+        "current": 2.78,
+        "power": 142.1,
+        "energy": 1391
+    },
+    "246": {
+        "voltage": 51.4,
+        "current": 2.76,
+        "power": 141.8,
+        "energy": 1392
+    },
+    "247": {
+        "voltage": 49.58,
+        "current": 2.68,
+        "power": 132.8,
+        "energy": 1393
+    },
+    "248": {
+        "voltage": 51.26,
+        "current": 2.79,
+        "power": 143.0,
+        "energy": 1395
+    },
+    "249": {
+        "voltage": 49.55,
+        "current": 2.68,
+        "power": 132.7,
+        "energy": 1396
+    },
+    "250": {
+        "voltage": 51.57,
+        "current": 2.8,
+        "power": 144.3,
+        "energy": 1397
+    },
+    "251": {
+        "voltage": 51.36,
+        "current": 2.79,
+        "power": 143.2,
+        "energy": 1398
+    },
+    "252": {
+        "voltage": 50.05,
+        "current": 2.72,
+        "power": 136.1,
+        "energy": 1399
+    },
+    "253": {
+        "voltage": 49.56,
+        "current": 2.68,
+        "power": 132.8,
+        "energy": 1400
+    },
+    "254": {
+        "voltage": 51.71,
+        "current": 2.77,
+        "power": 143.2,
+        "energy": 1402
+    },
+    "255": {
+        "voltage": 51.4,
+        "current": 2.79,
+        "power": 143.4,
+        "energy": 1403
+    },
+    "256": {
+        "voltage": 49.4,
+        "current": 2.69,
+        "power": 132.8,
+        "energy": 1404
+    },
+    "257": {
+        "voltage": 49.83,
+        "current": 2.71,
+        "power": 135.0,
+        "energy": 1405
+    },
+    "258": {
+        "voltage": 49.7,
+        "current": 2.69,
+        "power": 133.6,
+        "energy": 1406
+    },
+    "259": {
+        "voltage": 50.26,
+        "current": 2.79,
+        "power": 140.2,
+        "energy": 1407
+    },
+    "260": {
+        "voltage": 50.75,
+        "current": 2.75,
+        "power": 139.5,
+        "energy": 1408
+    },
+    "261": {
+        "voltage": 51.19,
+        "current": 2.7,
+        "power": 138.2,
+        "energy": 1410
+    },
+    "262": {
+        "voltage": 50.05,
+        "current": 2.73,
+        "power": 136.6,
+        "energy": 1411
+    },
+    "263": {
+        "voltage": 51.35,
+        "current": 2.79,
+        "power": 143.2,
+        "energy": 1412
+    },
+    "264": {
+        "voltage": 51.9,
+        "current": 2.8,
+        "power": 145.3,
+        "energy": 1413
+    },
+    "265": {
+        "voltage": 50.92,
+        "current": 2.78,
+        "power": 141.5,
+        "energy": 1414
+    },
+    "266": {
+        "voltage": 51.17,
+        "current": 2.8,
+        "power": 143.2,
+        "energy": 1415
+    },
+    "267": {
+        "voltage": 49.4,
+        "current": 2.69,
+        "power": 132.8,
+        "energy": 1416
+    },
+    "268": {
+        "voltage": 49.86,
+        "current": 2.68,
+        "power": 133.6,
+        "energy": 1418
+    },
+    "269": {
+        "voltage": 51.19,
+        "current": 2.79,
+        "power": 142.8,
+        "energy": 1419
+    },
+    "270": {
+        "voltage": 50.05,
+        "current": 2.77,
+        "power": 138.6,
+        "energy": 1420
+    },
+    "271": {
+        "voltage": 50.9,
+        "current": 2.78,
+        "power": 141.5,
+        "energy": 1421
+    },
+    "272": {
+        "voltage": 49.55,
+        "current": 2.68,
+        "power": 132.7,
+        "energy": 1422
+    },
+    "273": {
+        "voltage": 50.06,
+        "current": 2.68,
+        "power": 134.1,
+        "energy": 1423
+    },
+    "274": {
+        "voltage": 51.22,
+        "current": 2.77,
+        "power": 141.8,
+        "energy": 1424
+    },
+    "275": {
+        "voltage": 49.1,
+        "current": 2.66,
+        "power": 130.6,
+        "energy": 1426
+    },
+    "276": {
+        "voltage": 49.3,
+        "current": 2.7,
+        "power": 133.1,
+        "energy": 1427
+    },
+    "277": {
+        "voltage": 49.19,
+        "current": 2.8,
+        "power": 137.7,
+        "energy": 1428
+    },
+    "278": {
+        "voltage": 51.16,
+        "current": 2.81,
+        "power": 143.7,
+        "energy": 1429
+    },
+    "279": {
+        "voltage": 49.32,
+        "current": 2.72,
+        "power": 134.1,
+        "energy": 1430
+    },
+    "280": {
+        "voltage": 50.35,
+        "current": 2.79,
+        "power": 140.4,
+        "energy": 1431
+    },
+    "281": {
+        "voltage": 50.34,
+        "current": 2.77,
+        "power": 139.4,
+        "energy": 1432
+    },
+    "282": {
+        "voltage": 51.19,
+        "current": 2.79,
+        "power": 142.8,
+        "energy": 1434
+    },
+    "283": {
+        "voltage": 50.64,
+        "current": 2.78,
+        "power": 140.7,
+        "energy": 1435
+    },
+    "284": {
+        "voltage": 50.89,
+        "current": 2.8,
+        "power": 142.4,
+        "energy": 1436
+    },
+    "285": {
+        "voltage": 50.37,
+        "current": 2.8,
+        "power": 141.0,
+        "energy": 1437
+    },
+    "286": {
+        "voltage": 49.65,
+        "current": 2.65,
+        "power": 131.5,
+        "energy": 1438
+    },
+    "287": {
+        "voltage": 49.01,
+        "current": 2.68,
+        "power": 131.3,
+        "energy": 1439
+    },
+    "288": {
+        "voltage": 49.08,
+        "current": 2.72,
+        "power": 133.4,
+        "energy": 1440
+    },
+    "289": {
+        "voltage": 48.81,
+        "current": 2.78,
+        "power": 135.6,
+        "energy": 1442
+    },
+    "290": {
+        "voltage": 49.77,
+        "current": 2.65,
+        "power": 131.8,
+        "energy": 1443
+    },
+    "291": {
+        "voltage": 51.28,
+        "current": 2.79,
+        "power": 143.0,
+        "energy": 1444
+    },
+    "292": {
+        "voltage": 50.75,
+        "current": 2.82,
+        "power": 143.1,
+        "energy": 1445
+    },
+    "293": {
+        "voltage": 50.19,
+        "current": 2.78,
+        "power": 139.5,
+        "energy": 1446
+    },
+    "294": {
+        "voltage": 49.79,
+        "current": 2.82,
+        "power": 140.4,
+        "energy": 1447
+    },
+    "295": {
+        "voltage": 49.74,
+        "current": 2.73,
+        "power": 135.7,
+        "energy": 1448
+    },
+    "296": {
+        "voltage": 49.24,
+        "current": 2.66,
+        "power": 130.9,
+        "energy": 1450
+    },
+    "297": {
+        "voltage": 50.64,
+        "current": 2.8,
+        "power": 141.7,
+        "energy": 1451
+    },
+    "298": {
+        "voltage": 50.81,
+        "current": 2.81,
+        "power": 142.7,
+        "energy": 1452
+    },
+    "299": {
+        "voltage": 50.01,
+        "current": 2.76,
+        "power": 138.0,
+        "energy": 1453
+    },
+    "300": {
+        "voltage": 50.19,
+        "current": 2.71,
+        "power": 136.0,
+        "energy": 1454
+    },
+    "301": {
+        "voltage": 50.01,
+        "current": 2.79,
+        "power": 139.5,
+        "energy": 1455
+    },
+    "302": {
+        "voltage": 50.05,
+        "current": 2.81,
+        "power": 140.6,
+        "energy": 1456
+    },
+    "303": {
+        "voltage": 48.68,
+        "current": 2.69,
+        "power": 130.9,
+        "energy": 1458
+    },
+    "304": {
+        "voltage": 49.03,
+        "current": 2.7,
+        "power": 132.3,
+        "energy": 1459
+    },
+    "305": {
+        "voltage": 48.58,
+        "current": 2.77,
+        "power": 134.5,
+        "energy": 1460
+    },
+    "306": {
+        "voltage": 48.61,
+        "current": 2.74,
+        "power": 133.1,
+        "energy": 1461
+    },
+    "307": {
+        "voltage": 48.55,
+        "current": 2.71,
+        "power": 131.5,
+        "energy": 1462
+    },
+    "308": {
+        "voltage": 50.35,
+        "current": 2.8,
+        "power": 140.9,
+        "energy": 1463
+    },
+    "309": {
+        "voltage": 49.46,
+        "current": 2.77,
+        "power": 137.0,
+        "energy": 1464
+    },
+    "310": {
+        "voltage": 48.99,
+        "current": 2.73,
+        "power": 133.7,
+        "energy": 1466
+    },
+    "311": {
+        "voltage": 50.29,
+        "current": 2.82,
+        "power": 141.8,
+        "energy": 1467
+    },
+    "312": {
+        "voltage": 50.07,
+        "current": 2.78,
+        "power": 139.1,
+        "energy": 1468
+    },
+    "313": {
+        "voltage": 50.81,
+        "current": 2.8,
+        "power": 142.2,
+        "energy": 1469
+    },
+    "314": {
+        "voltage": 50.0,
+        "current": 2.81,
+        "power": 140.5,
+        "energy": 1470
+    },
+    "315": {
+        "voltage": 48.66,
+        "current": 2.8,
+        "power": 136.2,
+        "energy": 1471
+    },
+    "316": {
+        "voltage": 48.38,
+        "current": 2.76,
+        "power": 133.5,
+        "energy": 1472
+    },
+    "317": {
+        "voltage": 48.43,
+        "current": 2.76,
+        "power": 133.6,
+        "energy": 1474
+    },
+    "318": {
+        "voltage": 48.37,
+        "current": 2.8,
+        "power": 135.4,
+        "energy": 1475
+    }
 }
