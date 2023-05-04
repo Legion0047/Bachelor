@@ -2,6 +2,8 @@ import json
 import os
 
 FILEPATH = "database.json"
+
+
 class persistence():
     def load(self):
         self.exists()
@@ -15,17 +17,17 @@ class persistence():
             array.append(values)
         return array
 
-    #dictionary.update is used for create and edit, so this is used for add and edit
+    # dictionary.update is used for create and edit, so this is used for add and edit
     def addEdit(self, item):
         self.exists()
         with open(FILEPATH, 'r') as openfile:
             json_object = json.load(openfile)
-        json_object.update({item[0]:{
-                "name": item[1],
-                "tags": item[2],
-                "voltage": item[3],
-                "current": item[4],
-                "power": item[5]
+        json_object.update({item[0]: {
+            "name": item[1],
+            "tags": item[2],
+            "voltage": item[3],
+            "current": item[4],
+            "power": item[5]
         }})
         json_write_object = json.dumps(json_object, indent=4)
 
