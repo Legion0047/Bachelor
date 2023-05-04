@@ -22,7 +22,8 @@ class persistence():
         self.exists()
         with open(FILEPATH, 'r') as openfile:
             json_object = json.load(openfile)
-        json_object.update({item[0]: {
+
+        json_object.update({str(item[0]): {
             "name": item[1],
             "tags": item[2],
             "voltage": item[3],
