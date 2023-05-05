@@ -4,12 +4,13 @@ import math
 
 from PyQt5 import QtGui
 from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtWidgets import *
 from functools import partial
 
 from persistence import persistence
 from modbus import modbus
+
 
 class MainWindow(QMainWindow):
     db = persistence()
@@ -25,14 +26,12 @@ class MainWindow(QMainWindow):
     savedPower = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     step = 0
 
-
     items = db.load()
+    labelList = []
     # ID, Name, Tags, Voltage V, Current A, Power Wh, in planner
 
-    #TODO: Icons for buttons
-    #TODO: Po file
-    #TODO: Help and About button in menubar
-    #TODO: Update item timers in realtime
+    # TODO: Po file
+    # TODO: Help and About button in menubar
 
     def __init__(self):
         super().__init__()
@@ -51,7 +50,6 @@ class MainWindow(QMainWindow):
         layout.addWidget(chargeLabel, 0, 0)
         layout.addWidget(chargeBar, 0, 1)
 
-
         values = QLabel("0A 0V 0 W, time of use remaining with current consumption: 0h 0m")
         layout.addWidget(values, 1, 1)
         # creating a timer object
@@ -59,7 +57,7 @@ class MainWindow(QMainWindow):
 
         # adding action to timer
         timer.timeout.connect(lambda: self.updateCharge(values, chargeBar, client))
-        for i in range(0,10):
+        for i in range(0, 10):
             self.updateCharge(values, chargeBar, client)
         # update the timer every 30 seconds
         timer.start(30000)
@@ -120,12 +118,12 @@ class MainWindow(QMainWindow):
         searchButton.clicked.connect(partial(self.searchFilter, page, tableWidget, nameSearchField, tagSearchField))
         tableWidget.setCellWidget(0, 0, searchButton)
 
-
         if nameSearch == "name": nameSearch = ""
         if tagSearch == "tags": tagSearch = ""
 
         # initialized here to exist beyond the if blocks
         plannerItems = []
+        self.labelList = []
         capacityLabel = QLabel("Required Capacity: 0%")
         items = self.items
         if page == 0:
@@ -166,28 +164,24 @@ class MainWindow(QMainWindow):
                     text += tag + " | "
                 tag = QLabel(text[:len(text) - 3])
 
-                #TODO icon
+                # TODO icon
                 tableWidget.setCellWidget(row, 1, name)
                 tableWidget.setCellWidget(row, 2, tag)
                 if page == 0:
                     minutesDec, hours = math.modf(self.currentCapacity / item[5])
                     minutes = int(minutesDec * 60)
                     time = QLabel("Time Of Use Remaining: " + str(int(hours)) + "h " + str(minutes) + "m")
-
-                    #descriptionTimer = QTimer(self)
-
-                    # adding action to timer
-                    #descriptionTimer.timeout.connect(lambda: self.calculateTime(item, time))
-                    # update the timer every 30 seconds
-                    #descriptionTimer.start(30000)
-
+                    self.labelList.append(time)
 
                     details = QPushButton("Details")
                     details.clicked.connect(partial(self.details, item[0]))
+                    details.setIcon(QIcon('glass.png'))
                     edit = QPushButton("Edit")
                     edit.clicked.connect(partial(self.edit, item[0], tableWidget, nameSearch, tagSearch))
+                    edit.setIcon(QIcon('pencil.png'))
                     delete = QPushButton("Delete")
                     delete.clicked.connect(partial(self.delete, 0, item[0], tableWidget, nameSearch, tagSearch))
+                    delete.setIcon(QIcon('trash.png'))
                     tableWidget.setCellWidget(row, 3, time)
                     tableWidget.setCellWidget(row, 4, details)
                     tableWidget.setCellWidget(row, 5, edit)
@@ -200,12 +194,14 @@ class MainWindow(QMainWindow):
                     minutes.setMinimum(0)
                     minutes.setMaximum(60)
                     minutes.setSingleStep(5)
-                    tempitem = [item,hours,minutes]
+                    tempitem = [item, hours, minutes]
                     plannerItems.append(tempitem)
                     details = QPushButton("Details")
                     details.clicked.connect(partial(self.details, item[0]))
-                    remove = QPushButton("Delete")
+                    details.setIcon(QIcon('glass.png'))
+                    remove = QPushButton("Remove")
                     remove.clicked.connect(partial(self.delete, 1, item[0], tableWidget, nameSearch, tagSearch))
+                    remove.setIcon(QIcon('trash.png'))
                     tableWidget.setCellWidget(row, 3, hours)
                     tableWidget.setCellWidget(row, 4, minutes)
                     tableWidget.setCellWidget(row, 5, details)
@@ -226,6 +222,13 @@ class MainWindow(QMainWindow):
             capacityButton.clicked.connect(partial(self.calculateCapacity, plannerItems, capacityLabel))
             tableWidget.setCellWidget(row, 3, capacityLabel)
             tableWidget.setCellWidget(row, 4, capacityButton)
+
+        descriptionTimer = QTimer(self)
+
+        # adding action to timer
+        descriptionTimer.timeout.connect(lambda: self.calculateTime())
+        # update the timer every 30 seconds
+        descriptionTimer.start(30000)
 
     def details(self, itemId):
         item = self.getById(itemId)
@@ -295,9 +298,10 @@ class MainWindow(QMainWindow):
         layout.addWidget(tag, 1, 1)
         values.append(tag)
 
-
-        explanationLabel1 = QLabel("Before pressing save, please disconnect all devices save for the you are trying to add.")
-        explanationLabel2 = QLabel("Leave the device running at what you would consider 'normal use' until told otherwise.")
+        explanationLabel1 = QLabel(
+            "Before pressing save, please disconnect all devices save for the you are trying to add.")
+        explanationLabel2 = QLabel(
+            "Leave the device running at what you would consider 'normal use' until told otherwise.")
         layout.addWidget(explanationLabel1, 2, 0, 1, 2)
         layout.addWidget(explanationLabel2, 3, 0, 1, 2)
 
@@ -322,7 +326,8 @@ class MainWindow(QMainWindow):
         # creating a timer object
         timer = QTimer(self)
         # adding action to timer
-        timer.singleShot(3600, lambda: self.calibrateItem(itemId, item[1], item[2], tableWidget, nameSearch, tagSearch))
+        timer.singleShot(360000,
+                         lambda: self.calibrateItem(itemId, item[1], item[2], tableWidget, nameSearch, tagSearch))
 
     def addItemToPlaner(self, tableWidget):
         dlg = QDialog(self)
@@ -386,8 +391,10 @@ class MainWindow(QMainWindow):
         layout.addWidget(tag, 1, 1)
         values.append(tag)
 
-        explanationLabel1 = QLabel("Before pressing save, please disconnect all devices save for the you are trying to add.")
-        explanationLabel2 = QLabel("Leave the device running at what you would consider 'normal use' until told otherwise.")
+        explanationLabel1 = QLabel(
+            "Before pressing save, please disconnect all devices save for the you are trying to add.")
+        explanationLabel2 = QLabel(
+            "Leave the device running at what you would consider 'normal use' until told otherwise.")
         layout.addWidget(explanationLabel1, 2, 0, 1, 2)
         layout.addWidget(explanationLabel2, 3, 0, 1, 2)
 
@@ -414,6 +421,7 @@ class MainWindow(QMainWindow):
         newItem.append(1.0)
         newItem.append(1.0)
         newItem.append(1.0)
+        newItem.append(False)
         self.items.append(newItem)
         self.db.addEdit(newItem)
         self.renderTable(0, tableWidget)
@@ -422,7 +430,8 @@ class MainWindow(QMainWindow):
         # creating a timer object
         timer = QTimer(self)
         # adding action to timer
-        timer.singleShot(360000, lambda: self.calibrateItem(itemId, newItem[1], newItem[2], tableWidget, nameSearch, tagSearch))
+        timer.singleShot(360000,
+                         lambda: self.calibrateItem(itemId, newItem[1], newItem[2], tableWidget, nameSearch, tagSearch))
 
     def delete(self, page, itemId, tableWidget, nameSearch, tagSearch):
         item = self.getById(itemId)
@@ -433,7 +442,7 @@ class MainWindow(QMainWindow):
             item[6] = False
         self.renderTable(page, tableWidget, nameSearch, tagSearch)
 
-    #Help Functions below here
+    # Help Functions below here
     def getById(self, itemId):
         for item in self.items:
             if item[0] == itemId:
@@ -445,55 +454,57 @@ class MainWindow(QMainWindow):
         for item in items:
             hours = float(item[1].text())
             minutes = float(item[2].text())
-            hours += float(minutes/60)
-            requiredCapacity += hours*item[0][5]
-        label.setText("Required Capacity: "+str(round((requiredCapacity / self.maxCapacity) * 100))+"%")
+            hours += float(minutes / 60)
+            requiredCapacity += hours * item[0][5]
+        label.setText("Required Capacity: " + str(round((requiredCapacity / self.maxCapacity) * 100)) + "%")
 
-    def calculateTime(self, item, label):
-        #TODO: Check if item exists
-        print("time of: "+str(item[0]))
-        minutesDec, hours = math.modf(self.currentCapacity / item[5])
-        minutes = int(minutesDec * 60)
-        #label.setText("Time Of Use Remaining: " + str(int(hours)) + "h " + str(minutes) + "m")
-        label.setText("fart")
+    def calculateTime(self):
+        for item, label in zip(self.items, self.labelList):
+            if label:
+                minutesDec, hours = math.modf(self.currentCapacity / item[5])
+                minutes = int(minutesDec * 60)
+                label.setText("Time Of Use Remaining: " + str(int(hours)) + "h " + str(minutes) + "m")
+
     def searchFilter(self, page, tableWidget, nameSearchField, tagSearchField):
         nameSearch = nameSearchField.text()
         tagSearch = tagSearchField.text()
         self.renderTable(page, tableWidget, nameSearch, tagSearch)
 
     def updateCharge(self, valuesLabel, chargeBar, client):
-        #y = 51.5*x - 2500
+        # y = 51.57*x - 2474
         values = self.modbus.readCharge(self, client)
         self.savedVoltage[self.step] = values[0]
         self.savedCurrent[self.step] = values[1]
         self.savedPower[self.step] = values[2]
-        self.step +=1
-        if self.step >=10: self.step = 0
-        avgVoltage = sum(self.savedVoltage)/len(self.savedVoltage)
+        self.step += 1
+        if self.step >= 10: self.step = 0
+        avgVoltage = sum(self.savedVoltage) / len(self.savedVoltage)
         avgVoltage = float(f'{avgVoltage:.3f}')
-        avgCurrent = sum(self.savedCurrent)/len(self.savedCurrent)
+        avgCurrent = sum(self.savedCurrent) / len(self.savedCurrent)
         avgCurrent = float(f'{avgCurrent:.3f}')
-        avgPower = sum(self.savedPower)/len(self.savedPower)
+        avgPower = sum(self.savedPower) / len(self.savedPower)
         avgPower = float(f'{avgPower:.3f}')
-        self.currentCapacity = (51.5 * avgVoltage) - 2500
-        if self.currentCapacity > self.maxCapacity: self.currentCapacity=self.maxCapacity
+        self.currentCapacity = (51.57 * avgVoltage) - 2474
+        if self.currentCapacity > self.maxCapacity: self.currentCapacity = self.maxCapacity
         chargeBar.setValue(round((self.currentCapacity / self.maxCapacity) * 100))
 
         minutesDec, hours = math.modf(self.currentCapacity / avgPower)
         minutes = int(minutesDec * 60)
 
-        valuesLabel.setText(str(avgVoltage)+"V "+str(avgCurrent)+"A "+str(avgPower)+"W, time of use remaining with current consumption: " + str(int(hours)) + "h " + str(minutes) + "m")
+        valuesLabel.setText(str(avgVoltage) + "V " + str(avgCurrent) + "A " + str(
+            avgPower) + "W, time of use remaining with current consumption: " + str(int(hours)) + "h " + str(
+            minutes) + "m")
 
     def calibrateItem(self, itemId, name, itemTags, tableWidget, nameSearch, tagSearch):
         item = self.getById(itemId)
         item[1] = name
         item[2] = itemTags
 
-        avgVoltage = sum(self.savedVoltage)/len(self.savedVoltage)
+        avgVoltage = sum(self.savedVoltage) / len(self.savedVoltage)
         item[3] = float(f'{avgVoltage:.3f}')
-        avgCurrent = sum(self.savedCurrent)/len(self.savedCurrent)
+        avgCurrent = sum(self.savedCurrent) / len(self.savedCurrent)
         item[4] = float(f'{avgCurrent:.3f}')
-        avgPower = sum(self.savedPower)/len(self.savedPower)
+        avgPower = sum(self.savedPower) / len(self.savedPower)
         item[5] = float(f'{avgPower:.3f}')
 
         self.renderTable(0, tableWidget, nameSearch, tagSearch)
@@ -508,6 +519,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(infoLabel, 0, 0)
         dlg.setLayout(layout)
         dlg.exec()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
