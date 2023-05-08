@@ -305,6 +305,8 @@ class MainWindow(QMainWindow):
         layout.addWidget(explanationLabel1, 2, 0, 1, 2)
         layout.addWidget(explanationLabel2, 3, 0, 1, 2)
 
+        #TODO: Differentiate between editing name/tag and synching the device
+
         save = QPushButton("Save Changes")
         save.clicked.connect(partial(self.changeItem, itemId, values, tableWidget, dlg, nameSearch, tagSearch))
         layout.addWidget(save, 4, 0, 1, 2)
