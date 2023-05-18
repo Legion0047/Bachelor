@@ -32,6 +32,7 @@ class MainWindow(QMainWindow):
 
     # TODO: Po file
     # TODO: Help and About button in menubar
+    # TODO: Virtual keyboard
 
     def __init__(self):
         super().__init__()
