@@ -1,8 +1,9 @@
 import os
 import sys
 import math
+import subprocess
 
-from PyQt5 import QtGui
+from PyQt5 import QtCore
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtWidgets import *
@@ -30,17 +31,20 @@ class MainWindow(QMainWindow):
     labelList = []
     # ID, Name, Tags, Voltage V, Current A, Power Wh, in planner
 
-    # TODO: Po file
-    # TODO: Help and About button in menubar
-    # TODO: Virtual keyboard
-
     def __init__(self):
         super().__init__()
 
-        client = modbus.connect(self)
+#        client = modbus.connect(self)
+        client = []
 
         self.setWindowTitle("Main Page")
-        self.setGeometry(0, 0, 1024, 600)
+        self.setGeometry(0, 0, 1024, 300)
+        self.setWindowFlags(
+            QtCore.Qt.Window |
+            QtCore.Qt.CustomizeWindowHint |
+            QtCore.Qt.WindowTitleHint |
+            QtCore.Qt.WindowStaysOnTopHint
+        )
         # Setup Main page
         layout = QGridLayout()
 
@@ -54,14 +58,14 @@ class MainWindow(QMainWindow):
         values = QLabel("0A 0V 0 W, time of use remaining with current consumption: 0h 0m")
         layout.addWidget(values, 1, 1)
         # creating a timer object
-        timer = QTimer(self)
+#        timer = QTimer(self)
 
         # adding action to timer
-        timer.timeout.connect(lambda: self.updateCharge(values, chargeBar, client))
-        for i in range(0, 10):
-            self.updateCharge(values, chargeBar, client)
+#        timer.timeout.connect(lambda: self.updateCharge(values, chargeBar, client))
+#        for i in range(0, 10):
+#            self.updateCharge(values, chargeBar, client)
         # update the timer every 30 seconds
-        timer.start(30000)
+#        timer.start(30000)
 
         tableWidget = QTableWidget(self)
         tableWidget.setRowCount(len(self.items) + 2)
@@ -77,9 +81,9 @@ class MainWindow(QMainWindow):
 
         layout.addWidget(tableWidget, 2, 0, 1, 2)
 
-        logo = QLabel("hello")
-        logo.setPixmap(QtGui.QPixmap(os.getcwd() + "/TUW_logo.png"))
-        layout.addWidget(logo, 3, 0, 1, 2)
+#        logo = QLabel("hello")
+#        logo.setPixmap(QtGui.QPixmap(os.getcwd() + "/TUW_logo.png"))
+#        layout.addWidget(logo, 3, 0, 1, 2)
 
         toolbar = QToolBar("Page Selector")
         self.addToolBar(toolbar)
@@ -105,6 +109,7 @@ class MainWindow(QMainWindow):
         # Set the central widget of the Window. Widget will expand
         # to take up all the space in the window by default.
         self.setCentralWidget(widget)
+        subprocess.Popen(["matchbox-keyboard"])
 
     def renderTable(self, page, tableWidget, nameSearch="name", tagSearch="tags"):
         # page = 0: Main
@@ -237,6 +242,12 @@ class MainWindow(QMainWindow):
         dlg = QDialog(self)
         dlg.setWindowTitle("Details")
         dlg.setGeometry(0, 0, 512, 300)
+        dlg.setWindowFlags(
+            QtCore.Qt.Window |
+            QtCore.Qt.CustomizeWindowHint |
+            QtCore.Qt.WindowTitleHint |
+            QtCore.Qt.WindowStaysOnTopHint
+        )
 
         layout = QGridLayout()
 
@@ -269,6 +280,11 @@ class MainWindow(QMainWindow):
         layout.addWidget(powerLabel, 4, 0)
         layout.addWidget(power, 4, 1)
 
+        close = QPushButton("Close")
+        close.clicked.connect(dlg.close)
+        layout.addWidget(close, 5, 0, 1, 2)
+
+
         dlg.setLayout(layout)
 
         dlg.exec()
@@ -280,6 +296,12 @@ class MainWindow(QMainWindow):
         dlg = QDialog(self)
         dlg.setWindowTitle("Details")
         dlg.setGeometry(0, 0, 512, 150)
+        dlg.setWindowFlags(
+            QtCore.Qt.Window |
+            QtCore.Qt.CustomizeWindowHint |
+            QtCore.Qt.WindowTitleHint |
+            QtCore.Qt.WindowStaysOnTopHint
+        )
 
         layout = QGridLayout()
 
@@ -300,22 +322,31 @@ class MainWindow(QMainWindow):
         values.append(tag)
 
         explanationLabel1 = QLabel(
-            "Before pressing save, please disconnect all devices save for the you are trying to add.")
+            "Before pressing sync, please disconnect all devices save for the you are trying to add.")
         explanationLabel2 = QLabel(
             "Leave the device running at what you would consider 'normal use' until told otherwise.")
+        explanationLabel3 = QLabel(
+            "This process will take several minutes.")
         layout.addWidget(explanationLabel1, 2, 0, 1, 2)
         layout.addWidget(explanationLabel2, 3, 0, 1, 2)
+        layout.addWidget(explanationLabel3, 4, 0, 1, 2)
 
         #TODO: Differentiate between editing name/tag and synching the device
 
         save = QPushButton("Save Changes")
-        save.clicked.connect(partial(self.changeItem, itemId, values, tableWidget, dlg, nameSearch, tagSearch))
-        layout.addWidget(save, 4, 0, 1, 2)
+        save.clicked.connect(partial(self.changeItem, itemId, values, tableWidget, dlg, nameSearch, tagSearch, False))
+        layout.addWidget(save, 5, 0)
+        sync =QPushButton("Synchronize Device")
+        sync.clicked.connect(partial(self.changeItem, itemId, values, tableWidget, dlg, nameSearch, tagSearch, True))
+        layout.addWidget(sync, 5, 1)
+        close = QPushButton("Close")
+        close.clicked.connect(dlg.close)
+        layout.addWidget(close, 6, 0, 1, 2)
         dlg.setLayout(layout)
 
         dlg.exec()
 
-    def changeItem(self, itemId, values, tableWidget, dialogue, nameSearch, tagSearch):
+    def changeItem(self, itemId, values, tableWidget, dialogue, nameSearch, tagSearch, sync):
         item = self.getById(itemId)
         item[1] = values[0].text()
         tags = values[1].text().split("|")
@@ -325,17 +356,23 @@ class MainWindow(QMainWindow):
         self.renderTable(0, tableWidget, nameSearch, tagSearch)
         self.db.addEdit(item)
         dialogue.accept()
-
-        # creating a timer object
-        timer = QTimer(self)
-        # adding action to timer
-        timer.singleShot(360000,
-                         lambda: self.calibrateItem(itemId, item[1], item[2], tableWidget, nameSearch, tagSearch))
+        if sync:
+            # creating a timer object
+            timer = QTimer(self)
+            # adding action to timer
+            timer.singleShot(360000,
+                             lambda: self.calibrateItem(itemId, item[1], item[2], tableWidget, nameSearch, tagSearch))
 
     def addItemToPlaner(self, tableWidget):
         dlg = QDialog(self)
         dlg.setWindowTitle("Add Item")
         dlg.setGeometry(0, 0, 512, 300)
+        dlg.setWindowFlags(
+            QtCore.Qt.Window |
+            QtCore.Qt.CustomizeWindowHint |
+            QtCore.Qt.WindowTitleHint |
+            QtCore.Qt.WindowStaysOnTopHint
+        )
 
         layout = QGridLayout()
 
@@ -398,12 +435,18 @@ class MainWindow(QMainWindow):
             "Before pressing save, please disconnect all devices save for the you are trying to add.")
         explanationLabel2 = QLabel(
             "Leave the device running at what you would consider 'normal use' until told otherwise.")
+        explanationLabel3 = QLabel(
+            "This process will take several minutes.")
         layout.addWidget(explanationLabel1, 2, 0, 1, 2)
         layout.addWidget(explanationLabel2, 3, 0, 1, 2)
+        layout.addWidget(explanationLabel3, 4, 0, 1, 2)
 
         save = QPushButton("Create New Item")
         save.clicked.connect(partial(self.addItem, values, tableWidget, dlg, nameSearch, tagSearch))
-        layout.addWidget(save, 4, 0, 1, 2)
+        layout.addWidget(save, 5, 0, 1, 2)
+        close = QPushButton("Close")
+        close.clicked.connect(dlg.close)
+        layout.addWidget(close, 6, 0, 1, 2)
         dlg.setLayout(layout)
 
         dlg.exec()
