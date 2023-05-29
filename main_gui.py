@@ -34,8 +34,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-#        client = modbus.connect(self)
-        client = []
+        client = modbus.connect(self)
 
         self.setWindowTitle("Main Page")
         self.setGeometry(0, 0, 1024, 300)
@@ -58,14 +57,14 @@ class MainWindow(QMainWindow):
         values = QLabel("0A 0V 0 W, time of use remaining with current consumption: 0h 0m")
         layout.addWidget(values, 1, 1)
         # creating a timer object
-#        timer = QTimer(self)
+        timer = QTimer(self)
 
         # adding action to timer
-#        timer.timeout.connect(lambda: self.updateCharge(values, chargeBar, client))
-#        for i in range(0, 10):
-#            self.updateCharge(values, chargeBar, client)
+        timer.timeout.connect(lambda: self.updateCharge(values, chargeBar, client))
+        for i in range(0, 10):
+            self.updateCharge(values, chargeBar, client)
         # update the timer every 30 seconds
-#        timer.start(30000)
+        timer.start(30000)
 
         tableWidget = QTableWidget(self)
         tableWidget.setRowCount(len(self.items) + 2)
