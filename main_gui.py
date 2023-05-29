@@ -1,4 +1,4 @@
-import os
+
 import sys
 import math
 import subprocess
@@ -34,7 +34,8 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        client = modbus.connect(self)
+#        client = modbus.connect(self)
+        client = []
 
         self.setWindowTitle("Main Page")
         self.setGeometry(0, 0, 1024, 300)
@@ -57,14 +58,14 @@ class MainWindow(QMainWindow):
         values = QLabel("0A 0V 0 W, time of use remaining with current consumption: 0h 0m")
         layout.addWidget(values, 1, 1)
         # creating a timer object
-        timer = QTimer(self)
+#        timer = QTimer(self)
 
         # adding action to timer
-        timer.timeout.connect(lambda: self.updateCharge(values, chargeBar, client))
-        for i in range(0, 10):
-            self.updateCharge(values, chargeBar, client)
+#        timer.timeout.connect(lambda: self.updateCharge(values, chargeBar, client))
+#        for i in range(0, 10):
+#            self.updateCharge(values, chargeBar, client)
         # update the timer every 30 seconds
-        timer.start(30000)
+#        timer.start(30000)
 
         tableWidget = QTableWidget(self)
         tableWidget.setRowCount(len(self.items) + 2)
@@ -79,10 +80,6 @@ class MainWindow(QMainWindow):
         tableWidget.setColumnWidth(6, 100)
 
         layout.addWidget(tableWidget, 2, 0, 1, 2)
-
-#        logo = QLabel("hello")
-#        logo.setPixmap(QtGui.QPixmap(os.getcwd() + "/TUW_logo.png"))
-#        layout.addWidget(logo, 3, 0, 1, 2)
 
         toolbar = QToolBar("Page Selector")
         self.addToolBar(toolbar)
@@ -180,13 +177,13 @@ class MainWindow(QMainWindow):
 
                     details = QPushButton("Details")
                     details.clicked.connect(partial(self.details, item[0]))
-                    details.setIcon(QIcon('glass.png'))
+                    details.setIcon(QIcon('./Images/glass.png'))
                     edit = QPushButton("Edit")
                     edit.clicked.connect(partial(self.edit, item[0], tableWidget, nameSearch, tagSearch))
-                    edit.setIcon(QIcon('pencil.png'))
+                    edit.setIcon(QIcon('./Images/pencil.png'))
                     delete = QPushButton("Delete")
                     delete.clicked.connect(partial(self.delete, 0, item[0], tableWidget, nameSearch, tagSearch))
-                    delete.setIcon(QIcon('trash.png'))
+                    delete.setIcon(QIcon('./Images/trash.png'))
                     tableWidget.setCellWidget(row, 3, time)
                     tableWidget.setCellWidget(row, 4, details)
                     tableWidget.setCellWidget(row, 5, edit)
@@ -203,10 +200,10 @@ class MainWindow(QMainWindow):
                     plannerItems.append(tempitem)
                     details = QPushButton("Details")
                     details.clicked.connect(partial(self.details, item[0]))
-                    details.setIcon(QIcon('glass.png'))
+                    details.setIcon(QIcon('./Images/glass.png'))
                     remove = QPushButton("Remove")
                     remove.clicked.connect(partial(self.delete, 1, item[0], tableWidget, nameSearch, tagSearch))
-                    remove.setIcon(QIcon('trash.png'))
+                    remove.setIcon(QIcon('./Images/trash.png'))
                     tableWidget.setCellWidget(row, 3, hours)
                     tableWidget.setCellWidget(row, 4, minutes)
                     tableWidget.setCellWidget(row, 5, details)

@@ -1,0 +1,21 @@
+[Unit]
+Requires=dev-ttyUSB0.device
+Requires=graphical.target 
+Requires=network-online.target
+Requires=rc-local.service
+Description="energy service"
+
+[Service]
+Environment=DISPLAY=:0
+Type=simple
+ExecStart=/home/pi/Desktop/Bachelor/main_gui.py
+Restart=on-failure
+NonBlocking=true
+User=pi
+WorkingDirectory=/home/pi/Desktop/Bachelor
+RestartSec=10
+TimeoutSec=60
+
+[Install]
+WantedBy=multi-user.target
+

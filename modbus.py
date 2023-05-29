@@ -1,9 +1,7 @@
 from pymodbus.client import ModbusSerialClient as ModbusClient
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
-import pause
-from datetime import datetime
-import json
+
 
 class modbus():
 
