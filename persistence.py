@@ -15,7 +15,6 @@ class persistence():
         for key in list(json_object.keys()):
             values = (list(json_object[key].values()))
             values.insert(0, int(key))
-            values.append(False)
             array.append(values)
         return array
 
@@ -27,10 +26,12 @@ class persistence():
 
         json_object.update({str(item[0]): {
             "name": item[1],
-            "tags": item[2],
-            "voltage": item[3],
-            "current": item[4],
-            "power": item[5]
+            "colour": item[2],
+            "image": item[3],
+            "uou": item[4],
+            "voltage": item[5],
+            "current": item[6],
+            "power": item[7]
         }})
         json_write_object = json.dumps(json_object, indent=4)
 
