@@ -5,7 +5,7 @@ import math
 import subprocess
 
 from PyQt5 import QtCore
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QFont, QIcon, QPalette, QPixmap
 from PyQt5.QtWidgets import *
 from functools import partial
@@ -84,17 +84,23 @@ class MainWindow(QMainWindow):
         #        timer.start(30000)
 
         scrollArea = QScrollArea()
-        scrollArea.setBackgroundRole(QPalette.Dark)
+        scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scrollArea.setWidgetResizable(True)
+        scrollArea.setStyleSheet("QScrollBar:vertical { width: 30px; }");
+
         layout.addWidget(scrollArea, 2, 0, 1, 4)
 
         plusButton = QPushButton("+")
-        plusButton.clicked.connect(partial(self.createDevice))
+        plusButton.clicked.connect(partial(self.createDevice, scrollArea))
 
         helpButton = QPushButton("?")
-        helpButton.clicked.connect(partial(self.help))
+        helpButton.clicked.connect(partial(self.help, scrollArea))
 
         layout.addWidget(plusButton, 3, 0, 1, 1)
         layout.addWidget(helpButton, 3, 3, 1, 1)
+
+        self.deviceList(scrollArea)
 
         # Page Setup done
 
@@ -105,41 +111,119 @@ class MainWindow(QMainWindow):
         # to take up all the space in the window by default.
         self.setCentralWidget(widget)
 
-    def createDevice(self):
-        values = []
-        dlg = QDialog(self)
-        dlg.setWindowTitle("New Device")
-        dlg.setGeometry(30, 30, 512, 300)
-        dlg.setWindowFlags(
-            QtCore.Qt.Window |
-            QtCore.Qt.CustomizeWindowHint |
-            QtCore.Qt.WindowTitleHint
-        )
+    def deviceList(self, scrollArea):
+        scrollLayout = QGridLayout()
+        scrollWidget = QWidget()
+        scrollWidget.setLayout(scrollLayout)
+        scrollArea.setWidget(scrollWidget)
+        row = 1
+        for device in self.devices:
+            pixmap = QPixmap('./Images/' + device[3]).scaled(120, 120)
+            image = QLabel("")
+            image.setPixmap(pixmap)
 
-        layout = QGridLayout()
+            colour = device[2]
+            name = QPushButton(device[1])
+            name.setSizePolicy(
+                QSizePolicy.Preferred,
+                QSizePolicy.Expanding)
+            name.setStyleSheet('background-color: '+ colour)
+            name.clicked.connect(partial(self.details, device[0], scrollArea))
+            minutesDec, hours = math.modf(self.currentCapacity / device[7])
+            minutes = int(minutesDec * 60)
+            time = QLabel("Time Of Use Remaining: " + str(int(hours)) + "h " + str(minutes) + "m")
+            time.setStyleSheet('background-color: '+ colour)
+            if device[4] != 0:
+                uou = int((hours*60+minutes)/device[4])
+            else:
+                uou = "N/A"
+            units = QLabel(str(uou))
+            units.setStyleSheet('background-color: '+ colour)
+            plannedUnits = QSpinBox()
+            plannedUnits.setStyleSheet('background-color: '+ colour)
+            plannedUnits.setMinimum(0)
+            plannedUnits.setSizePolicy(
+                QSizePolicy.Preferred,
+                QSizePolicy.Expanding)
+            #todo: adding Bar to chargebar
+            scrollLayout.addWidget(image, row, 0)
+            scrollLayout.addWidget(name, row, 1)
+            scrollLayout.addWidget(time, row, 2)
+            scrollLayout.addWidget(units, row, 3)
+            scrollLayout.addWidget(plannedUnits, row, 4)
+            row+=1
+
+
+    def details(self, deviceId, scrollArea):
+        device = self.getById(deviceId)
+
+        scrollLayout = QGridLayout()
+        scrollWidget = QWidget()
+        scrollWidget.setLayout(scrollLayout)
+        scrollArea.setWidget(scrollWidget)
+        name = QLabel(str(device[1]))
+        exit = QPushButton("Exit")
+        exit.clicked.connect(partial(self.deviceList, scrollArea))
+        scrollLayout.addWidget(name, 0, 0)
+        scrollLayout.addWidget(exit, 1, 0)
+#        dlg = QDialog(self)
+#        dlg.setWindowTitle("Details")
+#        dlg.setGeometry(0, 0, 512, 300)
+#        dlg.setWindowFlags(
+#            QtCore.Qt.Window |
+#            QtCore.Qt.CustomizeWindowHint |
+#            QtCore.Qt.WindowTitleHint |
+#            QtCore.Qt.WindowStaysOnTopHint
+#        )
+#
+#        layout = QGridLayout()
+#
+#        nameLabel = QLabel("Name:")
+#        name = QLabel(device[1])
+#        layout.addWidget(nameLabel, 0, 0)
+#        layout.addWidget(name, 0, 1)
+#
+#        close = QPushButton("Close")
+#        close.clicked.connect(dlg.close)
+#        layout.addWidget(close, 5, 0, 1, 2)
+#
+#
+#        dlg.setLayout(layout)
+
+#        dlg.exec()
+
+
+    def createDevice(self, scrollArea):
+        values = []
+
+
+        scrollLayout = QGridLayout()
+        scrollWidget = QWidget()
+        scrollWidget.setLayout(scrollLayout)
+        scrollArea.setWidget(scrollWidget)
 
         nameLabel = QLabel("Name:")
         name = MatchBoxLineEdit()
-        layout.addWidget(nameLabel, 0, 0, 1, 2)
-        layout.addWidget(name, 0, 3, 1, 2)
+        scrollLayout.addWidget(nameLabel, 0, 0, 1, 2)
+        scrollLayout.addWidget(name, 0, 3, 1, 2)
         values.append(name)
 
         colour = "lightgreen"
         colourButton = QPushButton("Choose Colour")
         colourLabel = QLabel("")
         colourLabel.setStyleSheet("background-color:" + colour)
-        layout.addWidget(colourButton, 1, 0, 1, 2)
-        layout.addWidget(colourLabel, 1, 3, 1, 2)
+        scrollLayout.addWidget(colourButton, 1, 0, 1, 2)
+        scrollLayout.addWidget(colourLabel, 1, 3, 1, 2)
         values.append(colour)
         colourButton.clicked.connect(partial(self.getColour, values, colourLabel))
 
         image = "blank.png"
-        pixmap = QPixmap('./Images/' + image)
+        pixmap = QPixmap('./Images/' + image).scaled(120,120)
         imageButton = QPushButton("Choose Image")
         imageLabel = QLabel("")
         imageLabel.setPixmap(pixmap)
-        layout.addWidget(imageButton, 2, 0, 1, 2)
-        layout.addWidget(imageLabel, 2, 3, 2, 2)
+        scrollLayout.addWidget(imageButton, 2, 0, 1, 2)
+        scrollLayout.addWidget(imageLabel, 2, 3, 2, 2)
         values.append(image)
         imageButton.clicked.connect(partial(self.chooseImage, values, imageLabel))
 
@@ -148,21 +232,18 @@ class MainWindow(QMainWindow):
         minutes.setMinimum(0)
         minutes.setMaximum(60)
         minutes.setSingleStep(5)
-        layout.addWidget(uouLabel, 4, 0, 1, 2)
-        layout.addWidget(minutes, 4, 3, 1, 2)
+        scrollLayout.addWidget(uouLabel, 4, 0, 1, 2)
+        scrollLayout.addWidget(minutes, 4, 3, 1, 2)
         values.append(minutes)
 
         save = QPushButton("Create New Device")
-        save.clicked.connect(partial(self.addDevice, values, dlg))
-        layout.addWidget(save, 5, 0, 1, 2)
-        close = QPushButton("Close")
-        close.clicked.connect(dlg.close)
-        layout.addWidget(close, 5, 3, 1, 2)
-        dlg.setLayout(layout)
+        save.clicked.connect(partial(self.addDevice, values, scrollArea))
+        scrollLayout.addWidget(save, 5, 0, 1, 2)
+        exit = QPushButton("Exit")
+        exit.clicked.connect(partial(self.deviceList, scrollArea))
+        scrollLayout.addWidget(exit, 5, 3, 1, 2)
 
-        dlg.exec()
-
-    def addDevice(self, values, dlg):
+    def addDevice(self, values, scrollArea):
         newDevice = []
         deviceId = 0
         for device in self.devices:
@@ -179,7 +260,7 @@ class MainWindow(QMainWindow):
         newDevice.append(1.0)
 #        self.devices.append(newDevice)
 #        self.db.addEdit(newDevice)
-        dlg.accept()
+        self.deviceList(scrollArea)
 
         # creating a timer object
 #        timer = QTimer(self)
@@ -302,7 +383,7 @@ class MainWindow(QMainWindow):
         dlg.setLayout(layout)
         dlg.exec()
 
-    def help(self):
+    def help(self, scrollArea):
         print("I hope this helps")
 
 
@@ -310,6 +391,13 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     custom_font = QFont('Arial', 20)
     app.setFont(custom_font)
+    app.setStyleSheet("""
+    QSpinBox::down-button{
+        width: 50
+    }
+    QSpinBox::up-button{
+        width: 50
+    }""")
     window = MainWindow()
     window.show()
 
