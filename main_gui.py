@@ -17,6 +17,9 @@ from modbus import modbus
 # TODO: units of use = set use times as automatic replacement of charge time when given
 # TODO: Charge bar automatically fills in with planned demand
 # TODO: Different devices colour in the chargebar
+# TODO: Edit
+# TODO: Charging Icon
+# TODO: Calibration timer
 
 class MatchBoxLineEdit(QLineEdit):
     def focusInEvent(self, e):
@@ -195,6 +198,7 @@ class MainWindow(QMainWindow):
         scrollLayout.addWidget(stats, 3, 0, 1, 2)
 
         edit = QPushButton("Edit")
+        edit.clicked.connect(partial( self.editDevice, device))
         scrollLayout.addWidget(edit, 4, 0)
 
         delete = QPushButton("Delete")
@@ -243,6 +247,67 @@ class MainWindow(QMainWindow):
     def returnDetails(self, device, dlg):
         dlg.accept()
         self.details(device)
+
+    def editDevice(self, device):
+        values = []
+
+        scrollLayout = QGridLayout()
+        scrollWidget = QWidget()
+        scrollWidget.setLayout(scrollLayout)
+        self.scrollArea.setWidget(scrollWidget)
+
+        nameLabel = QLabel("Name:")
+        name = MatchBoxLineEdit(str(device[1]))
+        scrollLayout.addWidget(nameLabel, 0, 0, 1, 2)
+        scrollLayout.addWidget(name, 0, 2, 1, 2)
+        values.append(name)
+
+        colour = device[2]
+        colourButton = QPushButton("Choose Colour")
+        colourLabel = QLabel("")
+        colourLabel.setStyleSheet("background-color:" + colour)
+        scrollLayout.addWidget(colourButton, 1, 0, 1, 2)
+        scrollLayout.addWidget(colourLabel, 1, 2, 1, 2)
+        values.append(colour)
+        colourButton.clicked.connect(partial(self.getColour, values, colourLabel))
+
+        image = device[3]
+        pixmap = QPixmap('./Images/' + image).scaled(120, 120)
+        imageButton = QPushButton("Choose Image")
+        imageLabel = QLabel("")
+        imageLabel.setPixmap(pixmap)
+        scrollLayout.addWidget(imageButton, 2, 0, 1, 2)
+        scrollLayout.addWidget(imageLabel, 2, 2, 2, 2)
+        values.append(image)
+        imageButton.clicked.connect(partial(self.chooseImage, values, imageLabel))
+
+        uouLabel = QLabel("Duration of Unit of Use:")
+        minutes = QSpinBox()
+        minutes.setMinimum(0)
+        minutes.setMaximum(60)
+        minutes.setSingleStep(5)
+        minutes.setValue(device[4])
+        scrollLayout.addWidget(uouLabel, 4, 0, 1, 2)
+        scrollLayout.addWidget(minutes, 4, 2, 1, 2)
+        values.append(minutes)
+
+        calibrate = QPushButton("Calibrate Device")
+        scrollLayout.addWidget(calibrate, 5, 0, 1, 4)
+
+        save = QPushButton("Save Changes")
+        save.clicked.connect(partial(self.changeDevice, device, values))
+        scrollLayout.addWidget(save, 6, 0, 1, 2)
+        exit = QPushButton("Discard Changes")
+        exit.clicked.connect(partial(self.deviceList))
+        scrollLayout.addWidget(exit, 6, 2, 1, 2)
+
+    def changeDevice(self, device, values):
+        device[1] = values[0].text()
+        device[2] = values[1]
+        device[3] = values[2]
+        device[4] = values[3].value()
+        self.db.addEdit(device)
+        self.deviceList()
 
     def createDevice(self):
         values = []
