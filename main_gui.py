@@ -14,11 +14,6 @@ from persistence import persistence
 from modbus import modbus
 
 
-# TODO: units of use = set use times as automatic replacement of charge time when given
-# TODO: Charge bar automatically fills in with planned demand
-# TODO: Different devices colour in the chargebar
-# TODO: Edit
-# TODO: Charging Icon
 # TODO: Calibration timer
 
 class MatchBoxLineEdit(QLineEdit):
@@ -49,8 +44,13 @@ class MainWindow(QMainWindow):
     devices = db.load()
     # ID, Name, colour, image, Unit of Use, Voltage V, Current A, Power Wh, in planner
 
+    spinBoxes = []
+
     scrollArea = None
     layout = None
+    chargeBar = None
+    plannedBars = []
+
 
     def __init__(self):
         super().__init__()
@@ -70,25 +70,31 @@ class MainWindow(QMainWindow):
         self.layout = QGridLayout()
 
         chargeLabel = QLabel("Current Charge:")
-        chargeBar = QProgressBar(self)
-        chargeBar.setValue(self.batteryCharge)
+        self.chargeBar = QProgressBar(self)
+        self.chargeBar.setMaximum(100)
+        self.chargeBar.setValue(self.batteryCharge)
 
         self.layout.addWidget(chargeLabel, 0, 0, 1, 1)
-        self.layout.addWidget(chargeBar, 0, 1, 1, 3)
+        self.layout.addWidget(self.chargeBar, 0, 1, 1, 3)
 
         values = QLabel("0A 0V 0 W, time of use remaining with current consumption: 0h 0m")
         self.layout.addWidget(values, 1, 0, 1, 3)
+
+        pixmap = QPixmap('./Images/plug.png').scaled(60, 60)
+        icon = QLabel("")
+        icon.setPixmap(pixmap)
+        self.layout.addWidget(icon, 1, 3, 1, 1)
         # creating a timer object
         #        timer = QTimer(self)
 
         # adding action to timer
-        #        timer.timeout.connect(lambda: self.updateCharge(values, chargeBar, client))
+        #        timer.timeout.connect(lambda: self.updateCharge(values, client))
         #        for i in range(0, 10):
-        #            self.updateCharge(values, chargeBar, client)
+        #            self.updateCharge(value, client)
         # update the timer every 30 seconds
         #        timer.start(30000)
 
-        self.scrollArea = QScrollArea()
+        self.scrollArea = QScrollArea(self)
 
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -122,8 +128,8 @@ class MainWindow(QMainWindow):
         scrollWidget = QWidget()
         scrollWidget.setLayout(scrollLayout)
         self.scrollArea.setWidget(scrollWidget)
-        imageLabel = QLabel("Image")
-        nameLabel = QLabel("Name")
+        imageLabel = QLabel("Image:")
+        nameLabel = QLabel("Name:")
         timeLabel = QLabel("Time of Use:")
         unitLabel = QLabel("Units of Use:")
         plannedLabel = QLabel("Planned:")
@@ -151,24 +157,46 @@ class MainWindow(QMainWindow):
             minutes = int(minutesDec * 60)
             time = QLabel(str(int(hours)) + "h " + str(minutes) + "m")
             time.setStyleSheet('background-color: ' + colour)
-            if device[4] != 0:
-                uou = int((hours * 60 + minutes) / device[4])
-            else:
-                uou = "N/A"
-            units = QLabel(str(uou))
-            units.setStyleSheet('background-color: ' + colour)
             plannedUnits = QSpinBox()
             plannedUnits.setStyleSheet('background-color: ' + colour)
             plannedUnits.setMinimum(0)
             plannedUnits.setSizePolicy(
                 QSizePolicy.Preferred,
                 QSizePolicy.Expanding)
-            plannedUnits.valueChanged.connect(partial(self.addBar, device, plannedUnits))
+            plannedUnits.valueChanged.connect(partial(self.changeBar))
+            self.spinBoxes.append(plannedUnits)
+
+            if device[4] != 0:
+                uou = int((hours * 60 + minutes) / device[4])
+                plannedUnits.setMaximum(uou)
+                units = QLabel(str(uou) + " per " + str(device[4]) + "m")
+            else:
+                uou = "N/A"
+                plannedUnits.setMaximum(0)
+                units = QLabel(str(uou))
+            units.setStyleSheet('background-color: ' + colour)
             scrollLayout.addWidget(image, row, 0)
             scrollLayout.addWidget(name, row, 1)
             scrollLayout.addWidget(time, row, 2)
             scrollLayout.addWidget(units, row, 3)
             scrollLayout.addWidget(plannedUnits, row, 4)
+
+            plannedBar = QProgressBar(self)
+            plannedBar.setFormat("")
+            plannedBar.setStyleSheet("QProgressBar"
+                                          "{"
+                                          "background-color : rgba(0, 0, 0, 0);"
+                                          "}"
+
+                                          "QProgressBar::chunk"
+                                          "{"
+                                          "background : " + colour +
+                                          "}"
+                                          )
+            plannedBar.setValue(0)
+            self.layout.addWidget(plannedBar, 0, 1, 1, 3)
+            self.plannedBars.append(plannedBar)
+
             row += 1
 
     def details(self, device):
@@ -198,7 +226,7 @@ class MainWindow(QMainWindow):
         scrollLayout.addWidget(stats, 3, 0, 1, 2)
 
         edit = QPushButton("Edit")
-        edit.clicked.connect(partial( self.editDevice, device))
+        edit.clicked.connect(partial(self.editDevice, device))
         scrollLayout.addWidget(edit, 4, 0)
 
         delete = QPushButton("Delete")
@@ -432,34 +460,26 @@ class MainWindow(QMainWindow):
         values[2] = image
         dlg.accept()
 
-    def addBar(self, device, spinBox):
-        bar = QProgressBar(self)
-        bar.setValue(int(self.batteryCharge / 2))
-        op = QGraphicsOpacityEffect(bar)
-        op.setOpacity(0.5)
-        bar.setGraphicsEffect(op)
-        bar.setFormat("")
-        self.layout.addWidget(bar, 0, 1, 1, 3)
+    def changeBar(self):
+        deviceValue = 0
+        for device, spin, bar in zip(reversed(self.devices), reversed(self.spinBoxes), reversed(self.plannedBars)):
+            if spin.value() > 0:
+                deviceValue += (device[4]/60) * device[7] * spin.value()
+                #TODO: Active a symbol in this case?
+                if deviceValue > self.maxCapacity: deviceValue = self.maxCapacity
+                bar.setValue(round((deviceValue/self.maxCapacity) * 100))
 
     # Help Functions below here
 
-    def calculateCapacity(self, devices, label):
-        requiredCapacity = 0
-        for device in devices:
-            hours = float(device[1].text())
-            minutes = float(device[2].text())
-            hours += float(minutes / 60)
-            requiredCapacity += hours * device[0][5]
-        label.setText("Required Capacity: " + str(round((requiredCapacity / self.maxCapacity) * 100)) + "%")
-
     def calculateTime(self):
+        #TODO: Update uou as well
         for device, label in zip(self.devices, self.labelList):
             if label:
                 minutesDec, hours = math.modf(self.currentCapacity / device[5])
                 minutes = int(minutesDec * 60)
                 label.setText("Time Of Use Remaining: " + str(int(hours)) + "h " + str(minutes) + "m")
 
-    def updateCharge(self, valuesLabel, chargeBar, client):
+    def updateCharge(self, valuesLabel, client):
         # y = 51.57*x - 2474
         values = self.modbus.readCharge(self, client)
         self.savedVoltage[self.step] = values[0]
@@ -475,7 +495,7 @@ class MainWindow(QMainWindow):
         avgPower = float(f'{avgPower:.3f}')
         self.currentCapacity = (51.57 * avgVoltage) - 2474
         if self.currentCapacity > self.maxCapacity: self.currentCapacity = self.maxCapacity
-        chargeBar.setValue(round((self.currentCapacity / self.maxCapacity) * 100))
+        self.chargeBar.setValue(round((self.currentCapacity / self.maxCapacity) * 100))
 
         minutesDec, hours = math.modf(self.currentCapacity / avgPower)
         minutes = int(minutesDec * 60)
@@ -484,8 +504,7 @@ class MainWindow(QMainWindow):
             avgPower) + "W, time of use remaining with current consumption: " + str(int(hours)) + "h " + str(
             minutes) + "m")
 
-    def calibrateDevices(self, device, name):
-        device[1] = name
+    def calibrateDevices(self, device):
 
         avgVoltage = sum(self.savedVoltage) / len(self.savedVoltage)
         device[5] = float(f'{avgVoltage:.3f}')
