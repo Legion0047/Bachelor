@@ -463,7 +463,7 @@ class MainWindow(QMainWindow):
     def changeBar(self):
         deviceValue = 0
         for device, spin, bar in zip(reversed(self.devices), reversed(self.spinBoxes), reversed(self.plannedBars)):
-            if spin.value() > 0:
+            if device[4] > 0:
                 deviceValue += (device[4]/60) * device[7] * spin.value()
                 #TODO: Active a symbol in this case?
                 if deviceValue > self.maxCapacity: deviceValue = self.maxCapacity
