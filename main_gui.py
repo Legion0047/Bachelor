@@ -319,9 +319,10 @@ class MainWindow(QMainWindow):
         imageLabel = QLabel("")
         imageLabel.setPixmap(pixmap)
         scrollLayout.addWidget(imageButton, 2, 0, 1, 2)
-        scrollLayout.addWidget(imageLabel, 2, 2, 2, 2)
+        scrollLayout.addWidget(imageLabel, 2, 2, 1, 2)
         values.append(image)
         imageButton.clicked.connect(partial(self.chooseImage, values, imageLabel))
+
 
         uouLabel = QLabel("Duration of Unit of Use:")
         minutes = QSpinBox()
@@ -336,27 +337,27 @@ class MainWindow(QMainWindow):
         else:
             minutes.setValue(device[4])
 
-        scrollLayout.addWidget(uouLabel, 4, 0, 1, 2)
-        scrollLayout.addWidget(minutes, 4, 2, 1, 2)
+        scrollLayout.addWidget(uouLabel, 3, 0, 1, 2)
+        scrollLayout.addWidget(minutes, 3, 2, 1, 2)
         values.append(minutes)
 
         if create:
             save = QPushButton("Create New Device")
             save.clicked.connect(partial(self.addDevice, values))
-            scrollLayout.addWidget(save, 5, 0, 1, 2)
+            scrollLayout.addWidget(save, 4, 0, 1, 2)
             exit = QPushButton("Exit")
             exit.clicked.connect(partial(self.deviceList))
-            scrollLayout.addWidget(exit, 5, 2, 1, 2)
+            scrollLayout.addWidget(exit, 4, 2, 1, 2)
         else:
             save = QPushButton("Save Changes")
             save.clicked.connect(partial(self.changeDevice, device, values, False))
-            scrollLayout.addWidget(save, 5, 0, 1, 2)
+            scrollLayout.addWidget(save, 4, 0, 1, 2)
             exit = QPushButton("Discard Changes")
             exit.clicked.connect(partial(self.deviceList))
-            scrollLayout.addWidget(exit, 5, 2, 1, 2)
+            scrollLayout.addWidget(exit, 4, 2, 1, 2)
             calibrate = QPushButton("Calibrate Device")
             calibrate.clicked.connect(partial(self.changeDevice, device, values, True))
-            scrollLayout.addWidget(calibrate, 6, 0, 1, 4)
+            scrollLayout.addWidget(calibrate, 5, 0, 1, 4)
 
     def changeDevice(self, device, values, sync):
         device[1] = values[0].text()
@@ -439,7 +440,7 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
     def getImage(self, values, imageLabel, image, dlg):
-        pixmap = QPixmap('./Images/' + image).scaled(180, 180, QtCore.Qt.KeepAspectRatio)
+        pixmap = QPixmap('./Images/' + image).scaled(140, 140, QtCore.Qt.KeepAspectRatio)
         imageLabel.setPixmap(pixmap)
         values[2] = image
         dlg.accept()
