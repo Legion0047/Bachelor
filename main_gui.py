@@ -15,6 +15,7 @@ from modbus import modbus
 
 
 # TODO: Calibration timer
+# TODO: Borders for Bars
 
 class MatchBoxLineEdit(QLineEdit):
     def focusInEvent(self, e):
@@ -36,14 +37,14 @@ class MainWindow(QMainWindow):
     currentCapacity = 300  # WH
     batteryCharge = round((currentCapacity / maxCapacity) * 100)  # %
 
-    savedVoltage = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-    savedCurrent = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-    savedPower = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    savedVoltage = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    savedCurrent = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    savedPower = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     step = 0
 
     devices = db.load()
     # ID, Name, colour, image, Unit of Use, Voltage V, Current A, Power Wh, in planner
-
+    labels = []
     spinBoxes = []
 
     scrollArea = None
@@ -51,12 +52,10 @@ class MainWindow(QMainWindow):
     chargeBar = None
     plannedBars = []
 
-
     def __init__(self):
         super().__init__()
 
-        #        client = modbus.connect(self)
-        client = []
+        client = modbus.connect(self)
 
         self.setWindowTitle("Main Page")
         self.setGeometry(0, 0, 1024, 600)
@@ -72,6 +71,7 @@ class MainWindow(QMainWindow):
         chargeLabel = QLabel("Current Charge:")
         self.chargeBar = QProgressBar(self)
         self.chargeBar.setMaximum(100)
+        self.chargeBar.setFormat("")
         self.chargeBar.setValue(self.batteryCharge)
 
         self.layout.addWidget(chargeLabel, 0, 0, 1, 1)
@@ -85,14 +85,14 @@ class MainWindow(QMainWindow):
         icon.setPixmap(pixmap)
         self.layout.addWidget(icon, 1, 3, 1, 1)
         # creating a timer object
-        #        timer = QTimer(self)
+        timer = QTimer(self)
 
         # adding action to timer
-        #        timer.timeout.connect(lambda: self.updateCharge(values, client))
-        #        for i in range(0, 10):
-        #            self.updateCharge(value, client)
-        # update the timer every 30 seconds
-        #        timer.start(30000)
+        timer.timeout.connect(lambda: self.updateCharge(values, client))
+        for i in range(0, 12):
+            self.updateCharge(values, client)
+        # update the timer every 5 seconds
+        timer.start(5000)
 
         self.scrollArea = QScrollArea(self)
 
@@ -140,6 +140,9 @@ class MainWindow(QMainWindow):
         scrollLayout.addWidget(unitLabel, 0, 3)
         scrollLayout.addWidget(plannedLabel, 0, 4)
 
+        self.labels = []
+        self.spinBoxes = []
+
         row = 1
         for device in self.devices:
             pixmap = QPixmap('./Images/' + device[3]).scaled(120, 120)
@@ -174,6 +177,7 @@ class MainWindow(QMainWindow):
                 uou = "N/A"
                 plannedUnits.setMaximum(0)
                 units = QLabel(str(uou))
+
             units.setStyleSheet('background-color: ' + colour)
             scrollLayout.addWidget(image, row, 0)
             scrollLayout.addWidget(name, row, 1)
@@ -182,20 +186,22 @@ class MainWindow(QMainWindow):
             scrollLayout.addWidget(plannedUnits, row, 4)
 
             plannedBar = QProgressBar(self)
-            plannedBar.setFormat("")
+            plannedBar.setFormat(str(self.chargeBar.value()) + "%")
+            plannedBar.setAlignment(QtCore.Qt.AlignCenter)
             plannedBar.setStyleSheet("QProgressBar"
-                                          "{"
-                                          "background-color : rgba(0, 0, 0, 0);"
-                                          "}"
+                                     "{"
+                                     "background-color : rgba(0, 0, 0, 0);"
+                                     "}"
 
-                                          "QProgressBar::chunk"
-                                          "{"
-                                          "background : " + colour +
-                                          "}"
-                                          )
+                                     "QProgressBar::chunk"
+                                     "{"
+                                     "background : " + colour +
+                                     "}"
+                                     )
             plannedBar.setValue(0)
             self.layout.addWidget(plannedBar, 0, 1, 1, 3)
             self.plannedBars.append(plannedBar)
+            self.labels.append([time, uou])
 
             row += 1
 
@@ -401,16 +407,15 @@ class MainWindow(QMainWindow):
         newDevice.append(1.0)
         newDevice.append(1.0)
         newDevice.append(1.0)
-        #        self.devices.append(newDevice)
-        #        self.db.addEdit(newDevice)
+        self.devices.append(newDevice)
+        self.db.addEdit(newDevice)
         self.deviceList()
 
         # creating a timer object
 
-    #        timer = QTimer(self)
-    # adding action to timer
-    #        timer.singleShot(360000,
-    #                         lambda: self.calibrateDevice(deviceId, newDevice[1]))
+        timer = QTimer(self)
+        # adding action to timer
+        timer.singleShot(60000, lambda: self.calibrateDevice(newDevice))
 
     def getColour(self, values, colourLabel):
         pickedColour = QColorDialog.getColor()
@@ -455,7 +460,7 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
     def getImage(self, values, imageLabel, image, dlg):
-        pixmap = QPixmap('./Images/' + image)
+        pixmap = QPixmap('./Images/' + image).scaled(120, 120)
         imageLabel.setPixmap(pixmap)
         values[2] = image
         dlg.accept()
@@ -464,20 +469,20 @@ class MainWindow(QMainWindow):
         deviceValue = 0
         for device, spin, bar in zip(reversed(self.devices), reversed(self.spinBoxes), reversed(self.plannedBars)):
             if device[4] > 0:
-                deviceValue += (device[4]/60) * device[7] * spin.value()
-                #TODO: Active a symbol in this case?
-                if deviceValue > self.maxCapacity: deviceValue = self.maxCapacity
-                bar.setValue(round((deviceValue/self.maxCapacity) * 100))
-
-    # Help Functions below here
+                deviceValue += (device[4] / 60) * device[7] * spin.value()
+                if deviceValue > self.currentCapacity: deviceValue = self.currentCapacity
+                bar.setValue(round((deviceValue / self.maxCapacity) * 100))
 
     def calculateTime(self):
-        #TODO: Update uou as well
-        for device, label in zip(self.devices, self.labelList):
+        for device, [label, uouLabel], box in zip(self.devices, self.labels, self.spinBoxes):
             if label:
                 minutesDec, hours = math.modf(self.currentCapacity / device[5])
                 minutes = int(minutesDec * 60)
                 label.setText("Time Of Use Remaining: " + str(int(hours)) + "h " + str(minutes) + "m")
+                if device[4] != 0:
+                    uou = int((hours * 60 + minutes) / device[4])
+                    box.setMaximum(uou)
+                    uouLabel.setValue(str(uou) + " per " + str(device[4]) + "m")
 
     def updateCharge(self, valuesLabel, client):
         # y = 51.57*x - 2474
@@ -496,6 +501,8 @@ class MainWindow(QMainWindow):
         self.currentCapacity = (51.57 * avgVoltage) - 2474
         if self.currentCapacity > self.maxCapacity: self.currentCapacity = self.maxCapacity
         self.chargeBar.setValue(round((self.currentCapacity / self.maxCapacity) * 100))
+        for bar in self.plannedBars:
+            bar.setFormat(str(round((self.currentCapacity / self.maxCapacity) * 100)) + "%")
 
         minutesDec, hours = math.modf(self.currentCapacity / avgPower)
         minutes = int(minutesDec * 60)
@@ -513,17 +520,28 @@ class MainWindow(QMainWindow):
         avgPower = sum(self.savedPower) / len(self.savedPower)
         device[7] = float(f'{avgPower:.3f}')
 
-        #        self.db.addEdit(device)
+        self.db.addEdit(device)
         dlg = QDialog(self)
         dlg.setWindowTitle("Device Calibrated")
         dlg.setGeometry(0, 0, 512, 150)
+        dlg.setWindowFlags(
+            QtCore.Qt.Window |
+            QtCore.Qt.CustomizeWindowHint |
+            QtCore.Qt.WindowTitleHint
+        )
 
         layout = QGridLayout()
 
         infoLabel = QLabel("Your Device has now been calibrated and can be unplugged.")
         layout.addWidget(infoLabel, 0, 0)
+
+        accept = QPushButton("Accept")
+        accept.clicked.connect(dlg.accept)
+        layout.addWidget(accept, 1, 0)
+
         dlg.setLayout(layout)
         dlg.exec()
+
 
     def help(self):
         print("I hope this helps")
