@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
     realCapacity = 450  # WH
     reservedCapacity = 50  # WH
     maxCapacity = realCapacity - reservedCapacity  # WH
-    currentCapacity = 300  # WH
+    currentCapacity = 0  # WH
     batteryCharge = round((currentCapacity / maxCapacity) * 100)  # %
 
     savedVoltage = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
@@ -324,24 +324,29 @@ class MainWindow(QMainWindow):
         scrollLayout.addWidget(uouLabel, 4, 0, 1, 2)
         scrollLayout.addWidget(minutes, 4, 2, 1, 2)
         values.append(minutes)
-
         calibrate = QPushButton("Calibrate Device")
+        calibrate.clicked.connect(partial(self.changeDevice, device, values, True))
         scrollLayout.addWidget(calibrate, 5, 0, 1, 4)
 
         save = QPushButton("Save Changes")
-        save.clicked.connect(partial(self.changeDevice, device, values))
+        save.clicked.connect(partial(self.changeDevice, device, values, False))
         scrollLayout.addWidget(save, 6, 0, 1, 2)
         exit = QPushButton("Discard Changes")
         exit.clicked.connect(partial(self.deviceList))
         scrollLayout.addWidget(exit, 6, 2, 1, 2)
 
-    def changeDevice(self, device, values):
+    def changeDevice(self, device, values, sync):
         device[1] = values[0].text()
         device[2] = values[1]
         device[3] = values[2]
         device[4] = values[3].value()
         self.db.addEdit(device)
         self.deviceList()
+        if sync:
+            # creating a timer object
+            timer = QTimer(self)
+            # adding action to timer
+            timer.singleShot(60000, lambda: self.calibrateDevice(device))
 
     def createDevice(self):
         values = []
@@ -491,7 +496,7 @@ class MainWindow(QMainWindow):
         self.savedCurrent[self.step] = values[1]
         self.savedPower[self.step] = values[2]
         self.step += 1
-        if self.step >= 10: self.step = 0
+        if self.step >= 12: self.step = 0
         avgVoltage = sum(self.savedVoltage) / len(self.savedVoltage)
         avgVoltage = float(f'{avgVoltage:.3f}')
         avgCurrent = sum(self.savedCurrent) / len(self.savedCurrent)
@@ -511,7 +516,7 @@ class MainWindow(QMainWindow):
             avgPower) + "W, time of use remaining with current consumption: " + str(int(hours)) + "h " + str(
             minutes) + "m")
 
-    def calibrateDevices(self, device):
+    def calibrateDevice(self, device):
 
         avgVoltage = sum(self.savedVoltage) / len(self.savedVoltage)
         device[5] = float(f'{avgVoltage:.3f}')
