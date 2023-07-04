@@ -306,7 +306,7 @@ class MainWindow(QMainWindow):
         colourButton.clicked.connect(partial(self.getColour, values, colourLabel))
 
         image = device[3]
-        pixmap = QPixmap('./Images/' + image).scaled(120, 120)
+        pixmap = QPixmap('./Images/' + image).scaled(60, 60)
         imageButton = QPushButton("Choose Image")
         imageLabel = QLabel("")
         imageLabel.setPixmap(pixmap)
@@ -372,7 +372,7 @@ class MainWindow(QMainWindow):
         colourButton.clicked.connect(partial(self.getColour, values, colourLabel))
 
         image = "blank.png"
-        pixmap = QPixmap('./Images/' + image).scaled(100, 100)
+        pixmap = QPixmap('./Images/' + image).scaled(60, 60)
         imageButton = QPushButton("Choose Image")
         imageLabel = QLabel("")
         imageLabel.setPixmap(pixmap)
@@ -465,7 +465,7 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
     def getImage(self, values, imageLabel, image, dlg):
-        pixmap = QPixmap('./Images/' + image).scaled(100, 100)
+        pixmap = QPixmap('./Images/' + image).scaled(60, 60)
         imageLabel.setPixmap(pixmap)
         values[2] = image
         dlg.accept()
