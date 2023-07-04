@@ -145,7 +145,7 @@ class MainWindow(QMainWindow):
 
         row = 1
         for device in self.devices:
-            pixmap = QPixmap('./Images/' + device[3]).scaled(120, 120)
+            pixmap = QPixmap('./Images/' + device[3]).scaled(100, 100)
             image = QLabel("")
             image.setPixmap(pixmap)
 
@@ -212,7 +212,7 @@ class MainWindow(QMainWindow):
         scrollWidget.setLayout(scrollLayout)
         self.scrollArea.setWidget(scrollWidget)
 
-        pixmap = QPixmap('./Images/' + device[3]).scaled(240, 240)
+        pixmap = QPixmap('./Images/' + device[3]).scaled(200, 200)
         image = QLabel("")
         image.setPixmap(pixmap)
         scrollLayout.addWidget(image, 0, 0)
@@ -372,7 +372,7 @@ class MainWindow(QMainWindow):
         colourButton.clicked.connect(partial(self.getColour, values, colourLabel))
 
         image = "blank.png"
-        pixmap = QPixmap('./Images/' + image).scaled(120, 120)
+        pixmap = QPixmap('./Images/' + image).scaled(100, 100)
         imageButton = QPushButton("Choose Image")
         imageLabel = QLabel("")
         imageLabel.setPixmap(pixmap)
@@ -465,7 +465,7 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
     def getImage(self, values, imageLabel, image, dlg):
-        pixmap = QPixmap('./Images/' + image).scaled(120, 120)
+        pixmap = QPixmap('./Images/' + image).scaled(100, 100)
         imageLabel.setPixmap(pixmap)
         values[2] = image
         dlg.accept()
