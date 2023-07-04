@@ -16,6 +16,7 @@ from modbus import modbus
 
 # TODO: Calibration timer
 # TODO: Borders for Bars
+# TODO: Startup splash screen
 
 class MatchBoxLineEdit(QLineEdit):
     def focusInEvent(self, e):
@@ -80,7 +81,7 @@ class MainWindow(QMainWindow):
         values = QLabel("0A 0V 0 W, time of use remaining with current consumption: 0h 0m")
         self.layout.addWidget(values, 1, 0, 1, 3)
 
-        pixmap = QPixmap('./Images/plug.png').scaled(60, 60)
+        pixmap = QPixmap('./Images/plug.png').scaled(60, 60, QtCore.Qt.KeepAspectRatio)
         icon = QLabel("")
         icon.setPixmap(pixmap)
         self.layout.addWidget(icon, 1, 3, 1, 1)
@@ -104,7 +105,7 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.scrollArea, 2, 0, 1, 4)
 
         plusButton = QPushButton("+")
-        plusButton.clicked.connect(partial(self.createDevice))
+        plusButton.clicked.connect(partial(self.createEditDevice, [], True))
 
         helpButton = QPushButton("?")
         helpButton.clicked.connect(partial(self.help))
@@ -145,7 +146,7 @@ class MainWindow(QMainWindow):
 
         row = 1
         for device in self.devices:
-            pixmap = QPixmap('./Images/' + device[3]).scaled(100, 100)
+            pixmap = QPixmap('./Images/' + device[3]).scaled(120, 120, QtCore.Qt.KeepAspectRatio)
             image = QLabel("")
             image.setPixmap(pixmap)
 
@@ -212,7 +213,7 @@ class MainWindow(QMainWindow):
         scrollWidget.setLayout(scrollLayout)
         self.scrollArea.setWidget(scrollWidget)
 
-        pixmap = QPixmap('./Images/' + device[3]).scaled(200, 200)
+        pixmap = QPixmap('./Images/' + device[3]).scaled(200, 200, QtCore.Qt.KeepAspectRatio)
         image = QLabel("")
         image.setPixmap(pixmap)
         scrollLayout.addWidget(image, 0, 0)
@@ -232,7 +233,7 @@ class MainWindow(QMainWindow):
         scrollLayout.addWidget(stats, 3, 0, 1, 2)
 
         edit = QPushButton("Edit")
-        edit.clicked.connect(partial(self.editDevice, device))
+        edit.clicked.connect(partial(self.createEditDevice, device, False))
         scrollLayout.addWidget(edit, 4, 0)
 
         delete = QPushButton("Delete")
@@ -281,22 +282,26 @@ class MainWindow(QMainWindow):
     def returnDetails(self, device, dlg):
         dlg.accept()
         self.details(device)
-
-    def editDevice(self, device):
+    def createEditDevice(self, device, create):
         values = []
 
         scrollLayout = QGridLayout()
         scrollWidget = QWidget()
         scrollWidget.setLayout(scrollLayout)
         self.scrollArea.setWidget(scrollWidget)
-
+        if create:
+            name = MatchBoxLineEdit("")
+        else:
+            name = MatchBoxLineEdit(str(device[1]))
         nameLabel = QLabel("Name:")
-        name = MatchBoxLineEdit(str(device[1]))
         scrollLayout.addWidget(nameLabel, 0, 0, 1, 2)
         scrollLayout.addWidget(name, 0, 2, 1, 2)
         values.append(name)
 
-        colour = device[2]
+        if create:
+            colour = "lightgreen"
+        else:
+            colour = device[2]
         colourButton = QPushButton("Choose Colour")
         colourLabel = QLabel("")
         colourLabel.setStyleSheet("background-color:" + colour)
@@ -305,8 +310,11 @@ class MainWindow(QMainWindow):
         values.append(colour)
         colourButton.clicked.connect(partial(self.getColour, values, colourLabel))
 
-        image = device[3]
-        pixmap = QPixmap('./Images/' + image).scaled(60, 60)
+        if create:
+            image = "blank.png"
+        else:
+            image = device[3]
+        pixmap = QPixmap('./Images/' + image).scaled(140, 140, QtCore.Qt.KeepAspectRatio)
         imageButton = QPushButton("Choose Image")
         imageLabel = QLabel("")
         imageLabel.setPixmap(pixmap)
@@ -320,20 +328,35 @@ class MainWindow(QMainWindow):
         minutes.setMinimum(0)
         minutes.setMaximum(60)
         minutes.setSingleStep(5)
-        minutes.setValue(device[4])
+        minutes.setSizePolicy(
+            QSizePolicy.Preferred,
+            QSizePolicy.Expanding)
+        if create:
+            minutes.setValue(0)
+        else:
+            minutes.setValue(device[4])
+
         scrollLayout.addWidget(uouLabel, 4, 0, 1, 2)
         scrollLayout.addWidget(minutes, 4, 2, 1, 2)
         values.append(minutes)
-        calibrate = QPushButton("Calibrate Device")
-        calibrate.clicked.connect(partial(self.changeDevice, device, values, True))
-        scrollLayout.addWidget(calibrate, 5, 0, 1, 4)
 
-        save = QPushButton("Save Changes")
-        save.clicked.connect(partial(self.changeDevice, device, values, False))
-        scrollLayout.addWidget(save, 6, 0, 1, 2)
-        exit = QPushButton("Discard Changes")
-        exit.clicked.connect(partial(self.deviceList))
-        scrollLayout.addWidget(exit, 6, 2, 1, 2)
+        if create:
+            save = QPushButton("Create New Device")
+            save.clicked.connect(partial(self.addDevice, values))
+            scrollLayout.addWidget(save, 5, 0, 1, 2)
+            exit = QPushButton("Exit")
+            exit.clicked.connect(partial(self.deviceList))
+            scrollLayout.addWidget(exit, 5, 2, 1, 2)
+        else:
+            save = QPushButton("Save Changes")
+            save.clicked.connect(partial(self.changeDevice, device, values, False))
+            scrollLayout.addWidget(save, 5, 0, 1, 2)
+            exit = QPushButton("Discard Changes")
+            exit.clicked.connect(partial(self.deviceList))
+            scrollLayout.addWidget(exit, 5, 2, 1, 2)
+            calibrate = QPushButton("Calibrate Device")
+            calibrate.clicked.connect(partial(self.changeDevice, device, values, True))
+            scrollLayout.addWidget(calibrate, 6, 0, 1, 4)
 
     def changeDevice(self, device, values, sync):
         device[1] = values[0].text()
@@ -347,55 +370,6 @@ class MainWindow(QMainWindow):
             timer = QTimer(self)
             # adding action to timer
             timer.singleShot(60000, lambda: self.calibrateDevice(device))
-
-    def createDevice(self):
-        values = []
-
-        scrollLayout = QGridLayout()
-        scrollWidget = QWidget()
-        scrollWidget.setLayout(scrollLayout)
-        self.scrollArea.setWidget(scrollWidget)
-
-        nameLabel = QLabel("Name:")
-        name = MatchBoxLineEdit()
-        scrollLayout.addWidget(nameLabel, 0, 0, 1, 2)
-        scrollLayout.addWidget(name, 0, 2, 1, 2)
-        values.append(name)
-
-        colour = "lightgreen"
-        colourButton = QPushButton("Choose Colour")
-        colourLabel = QLabel("")
-        colourLabel.setStyleSheet("background-color:" + colour)
-        scrollLayout.addWidget(colourButton, 1, 0, 1, 2)
-        scrollLayout.addWidget(colourLabel, 1, 2, 1, 2)
-        values.append(colour)
-        colourButton.clicked.connect(partial(self.getColour, values, colourLabel))
-
-        image = "blank.png"
-        pixmap = QPixmap('./Images/' + image).scaled(60, 60)
-        imageButton = QPushButton("Choose Image")
-        imageLabel = QLabel("")
-        imageLabel.setPixmap(pixmap)
-        scrollLayout.addWidget(imageButton, 2, 0, 1, 2)
-        scrollLayout.addWidget(imageLabel, 2, 2, 2, 2)
-        values.append(image)
-        imageButton.clicked.connect(partial(self.chooseImage, values, imageLabel))
-
-        uouLabel = QLabel("Duration of Unit of Use:")
-        minutes = QSpinBox()
-        minutes.setMinimum(0)
-        minutes.setMaximum(60)
-        minutes.setSingleStep(5)
-        scrollLayout.addWidget(uouLabel, 4, 0, 1, 2)
-        scrollLayout.addWidget(minutes, 4, 2, 1, 2)
-        values.append(minutes)
-
-        save = QPushButton("Create New Device")
-        save.clicked.connect(partial(self.addDevice, values))
-        scrollLayout.addWidget(save, 5, 0, 1, 2)
-        exit = QPushButton("Exit")
-        exit.clicked.connect(partial(self.deviceList))
-        scrollLayout.addWidget(exit, 5, 2, 1, 2)
 
     def addDevice(self, values):
         newDevice = []
@@ -465,7 +439,7 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
     def getImage(self, values, imageLabel, image, dlg):
-        pixmap = QPixmap('./Images/' + image).scaled(60, 60)
+        pixmap = QPixmap('./Images/' + image).scaled(180, 180, QtCore.Qt.KeepAspectRatio)
         imageLabel.setPixmap(pixmap)
         values[2] = image
         dlg.accept()
