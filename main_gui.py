@@ -68,7 +68,7 @@ class MainWindow(QMainWindow):
         logo.setPixmap(pixmap)
         self.layout.addWidget(logo, 0, 0)
 
-        name = QLabel("CAS")
+        name = QLabel("Computer Aided Sustainability")
         name.setAlignment(QtCore.Qt.AlignCenter)
         name.setFont(QFont('Arial', 50))
         self.layout.addWidget(name, 1, 0)
@@ -187,7 +187,7 @@ class MainWindow(QMainWindow):
             self.spinBoxes.append(plannedUnits)
 
             if device[4] != 0:
-                uou = int((hours * 60 + minutes) / device[4])
+                uou = math.floor((hours * 60 + minutes) / device[4])
                 plannedUnits.setMaximum(uou)
                 units = QLabel(str(uou) + " per " + str(device[4]) + "m")
             else:
@@ -507,7 +507,7 @@ class MainWindow(QMainWindow):
             if label:
                 minutesDec, hours = math.modf(self.currentCapacity / device[5])
                 minutes = int(minutesDec * 60)
-                label.setText("Time Of Use Remaining: " + str(int(hours)) + "h " + str(minutes) + "m")
+                label.setText(str(int(hours)) + "h " + str(minutes) + "m")
                 if device[4] != 0:
                     uou = int((hours * 60 + minutes) / device[4])
                     box.setMaximum(uou)
