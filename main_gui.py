@@ -70,6 +70,7 @@ class MainWindow(QMainWindow):
 
         name = QLabel("CAS")
         name.setAlignment(QtCore.Qt.AlignCenter)
+        name.setFont(QFont('Arial', 50))
         self.layout.addWidget(name, 1, 0)
 
         widget = QWidget()
@@ -510,7 +511,7 @@ class MainWindow(QMainWindow):
                 if device[4] != 0:
                     uou = int((hours * 60 + minutes) / device[4])
                     box.setMaximum(uou)
-                    uouLabel.setValue(str(uou) + " per " + str(device[4]) + "m")
+                    uouLabel.setText(str(uou) + " per " + str(device[4]) + "m")
 
     def calibrationTimer(self, device, counter):
         if counter >= 65:
