@@ -98,7 +98,7 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(chargeLabel, 0, 0, 1, 1)
         self.layout.addWidget(self.chargeBar, 0, 1, 1, 3)
 
-        values = QLabel("0A 0V 0 W, time of use remaining with current consumption: 0h 0m")
+        values = QLabel("0A 0V 0 W, time of use remaining: 0h 0m")
         self.layout.addWidget(values, 1, 0, 1, 3)
 
         pixmap = QPixmap('Images/blank.png').scaled(60, 60, QtCore.Qt.KeepAspectRatio)
@@ -500,7 +500,7 @@ class MainWindow(QMainWindow):
         minutes = int(minutesDec * 60)
 
         valuesLabel.setText(str(avgVoltage) + "V " + str(avgCurrent) + "A " + str(
-            avgPower) + "W, time of use remaining with current consumption: " + str(int(hours)) + "h " + str(
+            avgPower) + "W, time of use remaining: " + str(int(hours)) + "h " + str(
             minutes) + "m")
 
         for device, [label, uouLabel], box in zip(self.devices, self.labels, self.spinBoxes):
