@@ -79,9 +79,9 @@ class MainWindow(QMainWindow):
         # to take up all the space in the window by default.
         self.setCentralWidget(widget)
 
-        # replace splashscreen with main window after 10s
+        # replace splashscreen with main window after 5s
         timer = QTimer(self)
-        timer.singleShot(10000, partial(self.launchMain, logo, name))
+        timer.singleShot(5000, partial(self.launchMain, logo, name))
 
     def launchMain(self, logo, name):
         self.layout.removeWidget(logo)
@@ -217,7 +217,7 @@ class MainWindow(QMainWindow):
             plannedBar.setValue(0)
             self.layout.addWidget(plannedBar, 0, 1, 1, 3)
             self.plannedBars.append(plannedBar)
-            self.labels.append([time, uou])
+            self.labels.append([time, units])
 
             row += 1
 
