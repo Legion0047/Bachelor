@@ -60,4 +60,4 @@ class persistence():
             # Writing to sample.json
             with open(FILEPATH, "w") as outfile:
                 outfile.write(json_object)
-            os.chmod(FILEPATH, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
+            os.chmod(FILEPATH, 0o0755)

@@ -39,6 +39,8 @@ class MainWindow(QMainWindow):
     savedPower = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     step = 0
 
+    FILEPATH = "Images/Devices/"
+
     devices = db.load()
     # ID, Name, colour, image, Unit of Use, Voltage V, Current A, Power Wh, in planner
     labels = []
@@ -87,7 +89,9 @@ class MainWindow(QMainWindow):
     def launchMain(self, logo, name):
         self.layout.removeWidget(logo)
         self.layout.removeWidget(name)
-        client = modbus.connect(self)
+
+#        client = modbus.connect(self)
+        client = []
 
         chargeLabel = QLabel("Current Charge:")
         self.chargeBar = QProgressBar(self)
@@ -109,11 +113,11 @@ class MainWindow(QMainWindow):
         timer = QTimer(self)
 
         # adding action to timer
-        timer.timeout.connect(lambda: self.updateValues(values, client))
-        for i in range(0, 12):
-            self.updateValues(values, client)
+#        timer.timeout.connect(lambda: self.updateValues(values, client))
+#        for i in range(0, 12):
+#            self.updateValues(values, client)
         # update the timer every 5 seconds
-        timer.start(5000)
+#        timer.start(5000)
 
         self.scrollArea = QScrollArea(self)
 
@@ -162,7 +166,7 @@ class MainWindow(QMainWindow):
 
         row = 1
         for device in self.devices:
-            pixmap = QPixmap('Images/' + device[3]).scaled(120, 120, QtCore.Qt.KeepAspectRatio)
+            pixmap = QPixmap(self.FILEPATH + device[3]).scaled(120, 120, QtCore.Qt.KeepAspectRatio)
             image = QLabel("")
             image.setPixmap(pixmap)
 
@@ -229,7 +233,7 @@ class MainWindow(QMainWindow):
         scrollWidget.setLayout(scrollLayout)
         self.scrollArea.setWidget(scrollWidget)
 
-        pixmap = QPixmap('Images/' + device[3]).scaled(200, 200, QtCore.Qt.KeepAspectRatio)
+        pixmap = QPixmap(self.FILEPATH + device[3]).scaled(200, 200, QtCore.Qt.KeepAspectRatio)
         image = QLabel("")
         image.setPixmap(pixmap)
         scrollLayout.addWidget(image, 0, 0)
@@ -331,7 +335,7 @@ class MainWindow(QMainWindow):
             image = "blank.png"
         else:
             image = device[3]
-        pixmap = QPixmap('Images/' + image).scaled(140, 140, QtCore.Qt.KeepAspectRatio)
+        pixmap = QPixmap(self.FILEPATH + image).scaled(140, 140, QtCore.Qt.KeepAspectRatio)
         imageButton = QPushButton("Choose Image")
         imageLabel = QLabel("")
         imageLabel.setPixmap(pixmap)
@@ -430,7 +434,7 @@ class MainWindow(QMainWindow):
             QtCore.Qt.CustomizeWindowHint |
             QtCore.Qt.WindowTitleHint
         )
-        entries = os.listdir('Images/')
+        entries = os.listdir(self.FILEPATH)
 
         layout = QGridLayout()
 
@@ -443,7 +447,7 @@ class MainWindow(QMainWindow):
                 if entry >= len(entries): break
                 name, ending = entries[entry].split('.')
                 button = QPushButton(name)
-                button.setIcon(QIcon('Images/' + entries[entry]))
+                button.setIcon(QIcon(self.FILEPATH + entries[entry]))
                 button.clicked.connect(partial(self.getImage, values, imageLabel, entries[entry], dlg))
                 button.setSizePolicy(
                     QSizePolicy.Preferred,
@@ -456,7 +460,7 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
     def getImage(self, values, imageLabel, image, dlg):
-        pixmap = QPixmap('Images/' + image).scaled(140, 140, QtCore.Qt.KeepAspectRatio)
+        pixmap = QPixmap(self.FILEPATH + image).scaled(140, 140, QtCore.Qt.KeepAspectRatio)
         imageLabel.setPixmap(pixmap)
         values[2] = image
         dlg.accept()
