@@ -90,8 +90,7 @@ class MainWindow(QMainWindow):
         self.layout.removeWidget(logo)
         self.layout.removeWidget(name)
 
-#        client = modbus.connect(self)
-        client = []
+        client = modbus.connect(self)
 
         chargeLabel = QLabel("Current Charge:")
         self.chargeBar = QProgressBar(self)
@@ -113,11 +112,11 @@ class MainWindow(QMainWindow):
         timer = QTimer(self)
 
         # adding action to timer
-#        timer.timeout.connect(lambda: self.updateValues(values, client))
-#        for i in range(0, 12):
-#            self.updateValues(values, client)
+        timer.timeout.connect(lambda: self.updateValues(values, client))
+        for i in range(0, 12):
+            self.updateValues(values, client)
         # update the timer every 5 seconds
-#        timer.start(5000)
+        timer.start(5000)
 
         self.scrollArea = QScrollArea(self)
 
