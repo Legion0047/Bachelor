@@ -3,8 +3,9 @@ import os
 import sys
 import math
 import subprocess
+import webbrowser
 
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtWebEngineWidgets
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QFont, QIcon, QPixmap
 from PyQt5.QtWidgets import *
@@ -557,7 +558,8 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
     def help(self):
-        print("I hope this helps")
+        path = './help.pdf'
+        webbrowser.open_new(path)
 
 
 if __name__ == "__main__":
