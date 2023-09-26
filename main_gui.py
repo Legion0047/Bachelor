@@ -54,6 +54,8 @@ class MainWindow(QMainWindow):
     plannedBars = []
     calibrationBar = None
 
+    screen = 0 # 0 = main, 1 = not main
+
     def __init__(self):
         super().__init__()
 
@@ -145,6 +147,7 @@ class MainWindow(QMainWindow):
         self.deviceList()
 
     def deviceList(self):
+        self.screen = 0
         scrollLayout = QGridLayout()
         scrollWidget = QWidget()
         scrollWidget.setLayout(scrollLayout)
@@ -227,7 +230,7 @@ class MainWindow(QMainWindow):
             row += 1
 
     def details(self, device):
-
+        self.screen = 1
         scrollLayout = QGridLayout()
         scrollWidget = QWidget()
         scrollWidget.setLayout(scrollLayout)
@@ -304,6 +307,7 @@ class MainWindow(QMainWindow):
         self.details(device)
 
     def createEditDevice(self, device, create):
+        self.screen=1
         values = []
 
         scrollLayout = QGridLayout()
@@ -506,16 +510,16 @@ class MainWindow(QMainWindow):
         valuesLabel.setText(str(avgVoltage) + "V " + str(avgCurrent) + "A " + str(
             avgPower) + "W, time of use remaining: " + str(int(hours)) + "h " + str(
             minutes) + "m")
-
-        for device, [label, uouLabel], box in zip(self.devices, self.labels, self.spinBoxes):
-            if label:
-                minutesDec, hours = math.modf(self.currentCapacity / device[5])
-                minutes = int(minutesDec * 60)
-                label.setText(str(int(hours)) + "h " + str(minutes) + "m")
-                if device[4] != 0:
-                    uou = int((hours * 60 + minutes) / device[4])
-                    box.setMaximum(uou)
-                    uouLabel.setText(str(uou) + " per " + str(device[4]) + "m")
+        if self.screen == 0:
+            for device, [label, uouLabel], box in zip(self.devices, self.labels, self.spinBoxes):
+                if label:
+                    minutesDec, hours = math.modf(self.currentCapacity / device[5])
+                    minutes = int(minutesDec * 60)
+                    label.setText(str(int(hours)) + "h " + str(minutes) + "m")
+                    if device[4] != 0:
+                        uou = int((hours * 60 + minutes) / device[4])
+                        box.setMaximum(uou)
+                        uouLabel.setText(str(uou) + " per " + str(device[4]) + "m")
 
     def calibrationTimer(self, device, counter):
         if counter >= 65:
